@@ -1,0 +1,33 @@
+body {
+    
+}
+
+#table {
+    width: 40%;
+    margin: 1%;
+}
+
+#header {
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+}
+
+#team-name {
+    color: white;
+    margin-left: 1%;
+    font-size: 20px;
+    
+}
+
+#search {
+    margin-left: 1%;
+}
+
+#dropdown {
+    width: 10%;
+    position: absolute;
+    left: 15%;
+    top: 16%;
+    
+}
