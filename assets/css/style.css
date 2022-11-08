@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 .header {
     padding: 60px;
     text-align: center;
@@ -6,3 +7,38 @@
     font-size: 30px;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
+=======
+body {
+    
+}
+
+#table {
+    width: 40%;
+    margin: 1%;
+}
+
+#header {
+    display: flex;
+    justify-content: center;
+    padding: 2%;
+}
+
+#team-name {
+    color: white;
+    margin-left: 1%;
+    font-size: 20px;
+    
+}
+
+#search {
+    margin-left: 1%;
+}
+
+#dropdown {
+    width: 10%;
+    position: absolute;
+    left: 15%;
+    top: 16%;
+    
+}
+>>>>>>> dd820725ca7349eedb4127b95d1f4212414273f0
