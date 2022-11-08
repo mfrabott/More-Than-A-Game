@@ -2,75 +2,29 @@
 
 // TODO: CFB Fetch
 
+// var season = 
+
 // var cfbapiKey = "hk7N+/TEkCcoApovbDd0NJaZsN2JBLp1g0QxAALU1bWxPDQu41TRWA63xdXjs/Hm";
 
-// function getcfbApi() {
-//     // Insert the API url to get a list of your repos
-    
-//     fetch('https://api.collegefootballdata.com/games?year=2022&seasonType=regular&team=ohio%20state', {
-         
-//         headers: {
-//             'Accept': 'application/json',
-//             'Authorization': 'Bearer hk7N+/TEkCcoApovbDd0NJaZsN2JBLp1g0QxAALU1bWxPDQu41TRWA63xdXjs/Hm',
-//             'Origin': 'http://127.0.0.1:5500/',
-//             'Access-Control-Allow-Origin': '*',
-//             'Access-Control-Allow-Methods': 'GET, OPTIONS',
-//             'Access-Control-Allow-Headers': '*'
-//         }
-//     })
-//       .then(function (response) {
-//         return response.json();
-//       })
-//       .then(function (Data) {
-//         console.log(Data);
-//         // doOtherThings(Data);
-//         // Data[i].startDate
-//         // gameTime = dayjs(gameDate).toDate())
-//       });
-//     }
+var url = './assets/js/2022.json'
 
-// var getcfbApi = function(){
-//     const data = null;
-
-//     const xhr = new XMLHttpRequest();
-//     xhr.withCredentials = true;
+function getcfbApi() {
+    // Insert the API url to get a list of your repos
     
-//     xhr.addEventListener("readystatechange", function () {
-//       if (this.readyState === this.DONE) {
-//         console.log(this.responseText);
-//       }
-//     });
-    
-//     xhr.open("GET", "https://api.collegefootballdata.com/games?year=2022&seasonType=regular&team=rutgers");
-//     xhr.setRequestHeader("Authorization", "Bearer hk7N+/TEkCcoApovbDd0NJaZsN2JBLp1g0QxAALU1bWxPDQu41TRWA63xdXjs/Hm");
-    
-//     xhr.send(data);
-//     }
-// getcfbApi();
+    fetch(url, {
+      mode: 'no-cors'})
+      .then(function (response) {
+        return response.json();
+      })
+      .then(function (Data) {
+        console.log(Data);
+        // doOtherThings(Data);
+        // Data[i].startDate
+        // gameTime = dayjs(gameDate).toDate())
+      });
+};
 
-//       function performSignIn() {
-//         let headers = new Headers();
-    
-//         // headers.append('Content-Type', 'application/json');
-//         headers.append('accept', 'application/json');
-//         headers.append('Authorization', 'Bearer hk7N+/TEkCcoApovbDd0NJaZsN2JBLp1g0QxAALU1bWxPDQu41TRWA63xdXjs/Hm');
-//         // headers.append('Origin','http://localhost:3000');
-    
-//         fetch('https://api.collegefootballdata.com/games?year=2022&seasonType=regular&team=ohio%20state', {
-//             mode: 'no-cors',
-//             credentials: 'include',
-//             method: 'POST',
-//             headers: headers
-//         })
-
-//         .then(response => response.json())
-//         .then(json => console.log(json))
-//         .catch(error => console.log('Authorization failed: ' + error.message));
-//     }
-
-// performSignIn()
-// getcfbApi()
-
+getcfbApi();
 
 // TODO: Ticketmaster Fetch
 var zipCode = '43215';
