@@ -14,7 +14,7 @@ function getcfbApi() {
     fetch(url, {
       mode: 'no-cors'})
       .then(function (response) {
-        return response.json();
+        return response.json
       })
       .then(function (Data) {
         console.log(Data);
@@ -49,12 +49,12 @@ function getTicketmasterApi() {
 getTicketmasterApi()
 
 // TODO: openTrip Fetch
-var openTripAPI = '5ae2e3f221c38a28845f05b6575f1e2d3fe67b63bacb02ba2a3949fb'
-
+var openTripAPI = '5ae2e3f221c38a28845f05b6575f1e2d3fe67b63bacb02ba2a3949fb';
+var longitude = '-82.99879';
+var latitude = '39.96118';
 function getopenTripApi() {
     // Insert the API url to get a list of your repos
-    var requestUrl = 'https://api.opentripmap.com/0.1/en/places/geoname?name=Columbus&apikey=5ae2e3f221c38a28845f05b6575f1e2d3fe67b63bacb02ba2a3949fb';
-  
+    var requestUrl = 'https://api.opentripmap.com/0.1/en/places/radius?radius=8046&lon='+ longitude +'&lat=' + latitude +'&apikey=5ae2e3f221c38a28845f05b664810e898547599530db788ca6c2863c'
     fetch(requestUrl)
       .then(function (response) {
         return response.json();
@@ -64,5 +64,26 @@ function getopenTripApi() {
         // doOtherThings(Data);
       });
 };
+var xid = "Q2281225" ;
+function getlocationdetails() {
+  // Insert the API url to get a list of your repos
+  var requestUrl = 'https://api.opentripmap.com/0.1/en/places/xid/'+xid+'?apikey=5ae2e3f221c38a28845f05b664810e898547599530db788ca6c2863c';
+  
+fetch(requestUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (Data) {
+      console.log(Data);
+      console.log(Data.image);
+      console.log(Data.wikipedia_extracts.text);
+      console.log(Data.address);
+      console.log(Data.name);
+      console.log(Data.wikipedia);
+
+      // doOtherThings(Data);
+    });
+};
 
 getopenTripApi()
+getlocationdetails()
