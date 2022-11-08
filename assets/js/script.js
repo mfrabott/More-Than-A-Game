@@ -2,29 +2,45 @@
 
 // TODO: CFB Fetch
 
-// var season = 
+var team='Nebraska'
 
-// var cfbapiKey = "hk7N+/TEkCcoApovbDd0NJaZsN2JBLp1g0QxAALU1bWxPDQu41TRWA63xdXjs/Hm";
-
-var url = './assets/js/2022.json'
-
-function getcfbApi() {
-    // Insert the API url to get a list of your repos
-    
-    fetch(url, {
-      mode: 'no-cors'})
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (Data) {
-        console.log(Data);
-        // doOtherThings(Data);
-        // Data[i].startDate
-        // gameTime = dayjs(gameDate).toDate())
-      });
+var fetchSchedules = function(){
+  fetch("./assets/js/2022.json")
+  .then(response => response.json())
+  .then(schedule => {
+    console.log(schedule)
+    for (i=0; i<schedule.length; i++){
+      console.log
+      if (team===schedule[i].away_team || team===schedule[i].home_team){
+        console.log(schedule[i])
+      }
+    }
+  });  
 };
+    
+  // schedule = schedule;
+  // for (i=0; i<schedule.length; i++){
 
-getcfbApi();
+stadium = 'Memorial Stadium';
+
+var fetchStadiums = function(){
+  fetch("./assets/js/stadiums.json")
+  .then(response => response.json())
+  .then(stadiums => {
+    console.log(stadiums)
+    for (i=0; i<stadiums.length; i++){
+      if (stadium===stadiums[i].name){
+        console.log(stadiums[i].zip)
+        console.log(stadiums[i].location.x)
+        console.log(stadiums[i].location.y)
+      }
+    }
+  })  
+}
+
+fetchSchedules();
+fetchStadiums();
+
 
 // TODO: Ticketmaster Fetch
 var zipCode = '43215';
@@ -66,3 +82,5 @@ function getopenTripApi() {
 };
 
 getopenTripApi()
+
+
