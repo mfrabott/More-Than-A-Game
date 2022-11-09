@@ -87,7 +87,7 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
     };
     // TODO: pass latitude, longitude into openTrip fetch on eventlistener
     // getOpenTripApi(longitude, latitude);
-    var buttonOne = document.querySelector('#button-01')
+    var buttonOne = document.querySelector('#click-1')
     buttonOne.addEventListener("click", function (event) {
       console.log('test')
     });
@@ -104,13 +104,12 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
 // var endDate = '2022-11-24T19:00:00Z';
 // var eventType = 'concerts';
 
-function getTicketmasterApi(zipCode, startDate, endDate) {
-    var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
-    var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
-    console.log(requestUrl)
-    fetch(requestUrl, {
 
-    })
+function getTicketmasterApi(zipCode, startDate, endDate) {
+  var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
+  var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
+  console.log(requestUrl)
+  fetch(requestUrl)
     .then(function (response) {
       return response.json();
     })
@@ -119,8 +118,14 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
       // doOtherThings(Data);
     });
 };
+  gameInfo = JSON.parse(localStorage.getItem('gameData'))
+  console.log(gameInfo)
+  var zipCode = gameInfo[107].zip;
+  var startDate = gameInfo[107].earlyDate;
+  var endDate = gameInfo[107].lateDate;
 
-// getTicketmasterApi(zipCode, startDate, endDate)
+getTicketmasterApi(zipCode, startDate, endDate)
+
 
 // TODO: openTrip Fetch
 var michaelOpenTripAPI = '5ae2e3f221c38a28845f05b6575f1e2d3fe67b63bacb02ba2a3949fb';
@@ -130,6 +135,9 @@ var latitude = '39.96118';
 
 function getOpenTripApi(longitude, latitude) {
     // Insert the API url to get a list of your repos
+    gameInfo = JSON.parse(localStorage.getItem('gameData'))
+    latitude = gameInfo[0].lat;
+    longitude = gameInfo[0].lon;
     var requestUrl = 'https://api.opentripmap.com/0.1/en/places/radius?radius=8046&lon='+ longitude +'&lat=' + latitude +'&apikey=' + julianOpenTripKey
     console.log(requestUrl)
     fetch(requestUrl)
