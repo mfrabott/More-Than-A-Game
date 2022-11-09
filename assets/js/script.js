@@ -51,7 +51,7 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
       // gameData.textContent = awayTeam + ' vs. ' + homeTeam;
       rowEl.appendChild(gameData);
       var linkClicker = document.createElement('a');
-      linkClicker.setAttribute('id', 'click-'+i+1);
+      linkClicker.setAttribute('id', 'click-'+i);
       linkClicker.textContent= awayTeam + ' vs. ' + homeTeam;
       gameData.appendChild(linkClicker);
       var gameDate = document.createElement ('td');
@@ -87,7 +87,7 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
     };
     // TODO: pass latitude, longitude into openTrip fetch on eventlistener
     // getOpenTripApi(longitude, latitude);
-    var buttonOne = document.querySelector('#click-01')
+    var buttonOne = document.querySelector('#button-01')
     buttonOne.addEventListener("click", function (event) {
       console.log('test')
     });
