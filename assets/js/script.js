@@ -117,6 +117,10 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
     })
     .then(function (Data) {
       console.log(Data);
+      console.log(Data._embedded.events[0].dates.start.localDate);
+      console.log(Data._embedded.events[0].dates.start.localTime);
+      console.log(Data._embedded.events[0].name);
+      console.log(Data._embedded.events[0].url);
       // doOtherThings(Data);
     });
 };
@@ -146,6 +150,10 @@ function getOpenTripApi(longitude, latitude) {
     })
     .then(function (Data) {
       console.log(Data);
+        
+        console.log(Data.features[0].properties.xid) ;
+
+        
       // doOtherThings(Data);
       });
 };
