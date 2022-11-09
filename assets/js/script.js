@@ -3,8 +3,7 @@ var searchInput = document.querySelector('#search');
 var tableBodyEl = document.querySelector('#table-body');
 var buttonRowOne = document.querySelector('#button-1');
 
-// TODO: CFB Fetch
-
+// CFB Fetch
 var teamSchedule = [];
 var stadiumID = '';
 var startDate ='';
@@ -48,7 +47,6 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
       rowHeader.textContent = i+1;
       rowEl.appendChild(rowHeader);
       var gameData = document.createElement('td');
-      // gameData.textContent = awayTeam + ' vs. ' + homeTeam;
       rowEl.appendChild(gameData);
       var linkClicker = document.createElement('a');
       linkClicker.setAttribute('id', 'click-'+i);
@@ -82,18 +80,24 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
         earlyDate : startDate,
         lateDate : endDate 
       }
+
       gameInfo.push(gameLocaleData);
       localStorage.setItem('gameData', JSON.stringify(gameInfo));     
     };
+
+    
     // TODO: pass latitude, longitude into openTrip fetch on eventlistener
     // getOpenTripApi(longitude, latitude);
-    var buttonOne = document.querySelector('#button-01')
+    var buttonOne = document.querySelector('#click-11')
     buttonOne.addEventListener("click", function (event) {
       console.log('test')
+      openTripMapCall()
+      tickemasterAPICall();
     });
 
     // TODO: pass zip into Ticketmaster fetch on eventlistener
     // getTicketmasterApi(zipCode, startDate, endDate);
+    
   });  
 };  
 
@@ -102,47 +106,66 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
 // var zipCode = '45701';
 // var startDate = '2022-11-20T19:00:00Z';
 // var endDate = '2022-11-24T19:00:00Z';
-// var eventType = 'concerts';
 
 function getTicketmasterApi(zipCode, startDate, endDate) {
-    var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
-    var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
-    console.log(requestUrl)
-    fetch(requestUrl, {
-
-    })
+  var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
+  var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
+  console.log(requestUrl)
+  fetch(requestUrl)
     .then(function (response) {
       return response.json();
     })
     .then(function (Data) {
       console.log(Data);
+      console.log(Data._embedded.events[0].dates.start.localDate);
+      console.log(Data._embedded.events[0].dates.start.localTime);
+      console.log(Data._embedded.events[0].name);
+      console.log(Data._embedded.events[0].url);
       // doOtherThings(Data);
     });
 };
 
-// getTicketmasterApi(zipCode, startDate, endDate)
+var tickemasterAPICall = function(){
+  gameInfo = JSON.parse(localStorage.getItem('gameData'))
+  console.log(gameInfo)
+  var zipCode = gameInfo[11].zip;
+  var startDate = gameInfo[11].earlyDate;
+  var endDate = gameInfo[11].lateDate;
+  getTicketmasterApi(zipCode, startDate, endDate)
+}
 
 // TODO: openTrip Fetch
-var michaelOpenTripAPI = '5ae2e3f221c38a28845f05b6575f1e2d3fe67b63bacb02ba2a3949fb';
-var julianOpenTripKey = '5ae2e3f221c38a28845f05b664810e898547599530db788ca6c2863c';
-var longitude = '-82.99879';
-var latitude = '39.96118';
+// var michaelOpenTripAPI = '5ae2e3f221c38a28845f05b6575f1e2d3fe67b63bacb02ba2a3949fb';
+// var longitude = '-82.99879';
+// var latitude = '39.96118';
 
 function getOpenTripApi(longitude, latitude) {
     // Insert the API url to get a list of your repos
-    var requestUrl = 'https://api.opentripmap.com/0.1/en/places/radius?radius=8046&lon='+ longitude +'&lat=' + latitude +'&apikey=' + julianOpenTripKey
-    console.log(requestUrl)
-    fetch(requestUrl)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (Data) {
-        console.log(Data);
-        // doOtherThings(Data);
+  var julianOpenTripKey = '5ae2e3f221c38a28845f05b664810e898547599530db788ca6c2863c';
+  var requestUrl = 'https://api.opentripmap.com/0.1/en/places/radius?radius=8046&lon='+ longitude +'&lat=' + latitude +'&apikey=' + julianOpenTripKey
+  console.log(requestUrl)
+  fetch(requestUrl)
+    .then(function (response) {
+      return response.json();
+    })
+    .then(function (Data) {
+      console.log(Data);
+        
+        console.log(Data.features[0].properties.xid) ;
+
+        
+      // doOtherThings(Data);
       });
 };
 
-// getOpenTripApi(longitude, latitude)
+
+var openTripMapCall = function(){
+  gameInfo = JSON.parse(localStorage.getItem('gameData'))
+  latitude = gameInfo[0].lat;
+  longitude = gameInfo[0].lon;
+  getOpenTripApi(longitude, latitude)
+}
+
 
 var xid = "Q2281225" ;
 function getLocationDetails() {
@@ -167,18 +190,8 @@ fetch(requestUrl)
 
 searchButton.addEventListener("click", function (event) {
   event.preventDefault(); 
-  var team = searchInput.value;
-  console.log(team)
-  fetchSchedule(team)
-});
-
-var buttonOne = document.querySelector('#button-01')
-buttonOne.addEventListener("click", function (event) {
-  console.log('test')
-});
-
-searchButton.addEventListener("click", function (event) {
-  event.preventDefault(); 
+  gameInfo = [];
+  localStorage.setItem('gameInfo', JSON.stringify(gameInfo))
   var team = searchInput.value;
   console.log(team)
   fetchSchedule(team)
