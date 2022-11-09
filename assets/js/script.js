@@ -1,11 +1,10 @@
 var searchButton = document.querySelector('#search-button');
-var searchInput = document.querySelector('#search')
-var tableBodyEl = document.querySelector('#table-body')
-var buttonRowOne = document.querySelector('#button-1')
+var searchInput = document.querySelector('#search');
+var tableBodyEl = document.querySelector('#table-body');
+var buttonRowOne = document.querySelector('#button-1');
 
 // TODO: CFB Fetch
 
-// var team='';
 var teamSchedule = [];
 var stadiumID = '';
 var startDate ='';
@@ -14,7 +13,6 @@ var stadiumsPlayed = [];
 var gameInfo = [];
 
 var fetchSchedule = function(team){
-  
   fetch("./assets/js/2022.json")
   .then(response => response.json())
   .then(schedule => {
@@ -45,15 +43,19 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
       // Post teams and game date/time onto list
       var rowEl = document.createElement('tr');
       tableBodyEl.appendChild(rowEl);
-      var rowHeader = document.createElement('th')
+      var rowHeader = document.createElement('th');
       rowHeader.setAttribute('scope', 'row');
       rowHeader.textContent = i+1;
       rowEl.appendChild(rowHeader);
-      var gameData = document.createElement('td')
-      gameData.textContent = awayTeam + ' vs. ' + homeTeam;
-      var gameDate = document.createElement ('td')
-      gameDate.textContent = gameDateTime;
+      var gameData = document.createElement('td');
+      // gameData.textContent = awayTeam + ' vs. ' + homeTeam;
       rowEl.appendChild(gameData);
+      var linkClicker = document.createElement('a');
+      linkClicker.setAttribute('id', 'click-'+i+1);
+      linkClicker.textContent= awayTeam + ' vs. ' + homeTeam;
+      gameData.appendChild(linkClicker);
+      var gameDate = document.createElement ('td');
+      gameDate.textContent = gameDateTime;
       rowEl.appendChild(gameDate);
 
       for(k=0; k<stadiums.length; k++){
@@ -66,13 +68,12 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
           var longitude = stadiums[k].location.y;
           var cityPlayed = document.createElement('td');
           cityPlayed.textContent = city + ', ' + state;
-          rowEl.appendChild(cityPlayed)
+          rowEl.appendChild(cityPlayed);
         };         
       };
 
       // Save the information needed for API calls to localStorage as an object
       gameInfo = JSON.parse(localStorage.getItem('gameData')) ?? [];
-      console.log(gameInfo)
       gameLocaleData = {
         gameWeek : i+1,
         zip : zipCode,
@@ -86,6 +87,10 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
     };
     // TODO: pass latitude, longitude into openTrip fetch on eventlistener
     // getOpenTripApi(longitude, latitude);
+    var buttonOne = document.querySelector('#click-01')
+    buttonOne.addEventListener("click", function (event) {
+      console.log('test')
+    });
 
     // TODO: pass zip into Ticketmaster fetch on eventlistener
     // getTicketmasterApi(zipCode, startDate, endDate);
@@ -166,3 +171,16 @@ searchButton.addEventListener("click", function (event) {
   console.log(team)
   fetchSchedule(team)
 });
+
+var buttonOne = document.querySelector('#button-01')
+buttonOne.addEventListener("click", function (event) {
+  console.log('test')
+});
+
+searchButton.addEventListener("click", function (event) {
+  event.preventDefault(); 
+  var team = searchInput.value;
+  console.log(team)
+  fetchSchedule(team)
+});
+
