@@ -84,7 +84,7 @@ var xid = "Q2281225" ;
 function getlocationdetails() {
   // Insert the API url to get a list of your repos
   var requestUrl = 'https://api.opentripmap.com/0.1/en/places/xid/'+xid+'?apikey=5ae2e3f221c38a28845f05b664810e898547599530db788ca6c2863c';
-  
+  for ()
 fetch(requestUrl)
     .then(function (response) {
       return response.json();
