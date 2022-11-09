@@ -99,9 +99,9 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
 
 
 // TODO: Ticketmaster Fetch
-// var zipCode = '45701';
-// var startDate = '2022-11-20T19:00:00Z';
-// var endDate = '2022-11-24T19:00:00Z';
+ var zipCode = '45701';
+ var startDate = '2022-11-20T19:00:00Z';
+var endDate = '2022-11-24T19:00:00Z';
 // var eventType = 'concerts';
 
 function getTicketmasterApi(zipCode, startDate, endDate) {
@@ -116,11 +116,15 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
     })
     .then(function (Data) {
       console.log(Data);
+      console.log(Data._embedded.events[0].dates.start.localDate);
+      console.log(Data._embedded.events[0].dates.start.localTime);
+      console.log(Data._embedded.events[0].name);
+      console.log(Data._embedded.events[0].url);
       // doOtherThings(Data);
     });
 };
 
-// getTicketmasterApi(zipCode, startDate, endDate)
+ getTicketmasterApi(zipCode, startDate, endDate)
 
 // TODO: openTrip Fetch
 var michaelOpenTripAPI = '5ae2e3f221c38a28845f05b6575f1e2d3fe67b63bacb02ba2a3949fb';
@@ -138,6 +142,10 @@ function getOpenTripApi(longitude, latitude) {
       })
       .then(function (Data) {
         console.log(Data);
+        
+        console.log(Data.features[0].properties.xid) ;
+
+        
         // doOtherThings(Data);
       });
 };
