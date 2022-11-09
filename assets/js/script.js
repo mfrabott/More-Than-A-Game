@@ -2,19 +2,22 @@ var searchButton = document.querySelector('#search-button');
 var searchInput = document.querySelector('#search');
 var tableBodyEl = document.querySelector('#table-body');
 var buttonRowOne = document.querySelector('#button-1');
+var tableRowEl = document.getElementsByTagName('tr')
+var tableHeadEl = document.querySelector('#table-head')
 
 // CFB Fetch
-var teamSchedule = [];
+// var teamSchedule = [];
 var stadiumID = '';
 var startDate ='';
 var endDate='';
 var stadiumsPlayed = [];
-var gameInfo = [];
+var gameData = [];
 
 var fetchSchedule = function(team){
   fetch("./assets/js/2022.json")
   .then(response => response.json())
   .then(schedule => {
+    var teamSchedule = [];
     for (i=0; i<schedule.length; i++){
       if (team===schedule[i].away_team || team===schedule[i].home_team){
         teamSchedule.push(schedule[i])
@@ -28,7 +31,26 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
   fetch("./assets/js/stadiums.json")
   .then(response => response.json())
   .then(stadiums => {
-    
+      
+      var headerRow = document.createElement('tr');
+      var colHeadOne = document.createElement('th')
+      var colHeadTwo = document.createElement('th')
+      var colHeadThree = document.createElement('th')
+      var colHeadFour = document.createElement('th')
+      colHeadOne.setAttribute('scope', 'col')
+      colHeadTwo.setAttribute('scope', 'col')
+      colHeadThree.setAttribute('scope', 'col')
+      colHeadFour.setAttribute('scope', 'col')
+      colHeadOne.textContent = 'Game Week';
+      colHeadTwo.textContent = 'College Football Games';
+      colHeadThree.textContent = 'Dates';
+      colHeadFour.textContent = 'Cities';
+      headerRow.appendChild(colHeadOne);
+      headerRow.appendChild(colHeadTwo);
+      headerRow.appendChild(colHeadThree);
+      headerRow.appendChild(colHeadFour);
+      tableHeadEl.appendChild(headerRow);
+
     for (i=0; i<teamSchedule.length; i++){
       var awayTeam = teamSchedule[i].away_team;
       var homeTeam = teamSchedule[i].home_team;
@@ -40,6 +62,7 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
       var endDate = dayjs(endDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
 
       // Post teams and game date/time onto list
+
       var rowEl = document.createElement('tr');
       tableBodyEl.appendChild(rowEl);
       var rowHeader = document.createElement('th');
@@ -71,7 +94,8 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
       };
 
       // Save the information needed for API calls to localStorage as an object
-      gameInfo = JSON.parse(localStorage.getItem('gameData')) ?? [];
+      gameData = JSON.parse(localStorage.getItem('gameData')) ?? [];
+      console.log(gameData)
       gameLocaleData = {
         gameWeek : i+1,
         zip : zipCode,
@@ -81,8 +105,8 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
         lateDate : endDate 
       }
 
-      gameInfo.push(gameLocaleData);
-      localStorage.setItem('gameData', JSON.stringify(gameInfo));     
+      gameData.push(gameLocaleData);
+      localStorage.setItem('gameData', JSON.stringify(gameData));     
     };
 
     
@@ -126,11 +150,11 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
 };
 
 var tickemasterAPICall = function(){
-  gameInfo = JSON.parse(localStorage.getItem('gameData'))
-  console.log(gameInfo)
-  var zipCode = gameInfo[11].zip;
-  var startDate = gameInfo[11].earlyDate;
-  var endDate = gameInfo[11].lateDate;
+  gameData = JSON.parse(localStorage.getItem('gameData'))
+  console.log(gameData)
+  var zipCode = gameData[11].zip;
+  var startDate = gameData[11].earlyDate;
+  var endDate = gameData[11].lateDate;
   getTicketmasterApi(zipCode, startDate, endDate)
 }
 
@@ -160,9 +184,9 @@ function getOpenTripApi(longitude, latitude) {
 
 
 var openTripMapCall = function(){
-  gameInfo = JSON.parse(localStorage.getItem('gameData'))
-  latitude = gameInfo[0].lat;
-  longitude = gameInfo[0].lon;
+  gameData = JSON.parse(localStorage.getItem('gameData'))
+  latitude = gameData[0].lat;
+  longitude = gameData[0].lon;
   getOpenTripApi(longitude, latitude)
 }
 
@@ -190,8 +214,14 @@ fetch(requestUrl)
 
 searchButton.addEventListener("click", function (event) {
   event.preventDefault(); 
-  gameInfo = [];
-  localStorage.setItem('gameInfo', JSON.stringify(gameInfo))
+  console.log(tableRowEl)
+  for (i=0; i<tableRowEl.length; i++){
+    tableRowEl[i].setAttribute('style', 'display: none')
+  }
+  gameData = [];
+  console.log(gameData)
+  localStorage.setItem('gameData', JSON.stringify(gameData));
+  console.log(gameData)
   var team = searchInput.value;
   console.log(team)
   fetchSchedule(team)
