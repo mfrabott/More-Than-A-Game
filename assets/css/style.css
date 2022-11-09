@@ -18,6 +18,7 @@ body {
 #table {
     width: 40%;
     margin: 1%;
+    cursor: pointer;
 }
 
 #header {
