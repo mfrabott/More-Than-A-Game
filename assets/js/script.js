@@ -66,13 +66,15 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
           var cityPlayed = document.createElement('td');
           cityPlayed.textContent = city + ', ' + state;
           rowEl.appendChild(cityPlayed)
-          console.log(zipCode);
-          console.log(latitude);
-          console.log(longitude);
-          console.log(startDate)
-          console.log(endDate)
-        };
+        };         
       };
+      // TODO:save the following to localStorage as an object
+      console.log(i+1)
+      console.log(zipCode);
+      console.log(latitude);
+      console.log(longitude);
+      console.log(startDate)
+      console.log(endDate)
     };
     // TODO: pass latitude, longitude into openTrip fetch on eventlistener
     // getOpenTripApi(longitude, latitude);
