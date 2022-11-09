@@ -23,34 +23,36 @@ var fetchSchedule = function(team){
         teamSchedule.push(schedule[i])
       };
     };
-    fetchStadiums(teamSchedule, stadiumID, startDate, endDate);
+    fetchStadiums(teamSchedule);
   });  
 };
 
-var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
+var fetchStadiums = function(teamSchedule){
   fetch("./assets/js/stadiums.json")
   .then(response => response.json())
   .then(stadiums => {
       
-      var headerRow = document.createElement('tr');
-      var colHeadOne = document.createElement('th')
-      var colHeadTwo = document.createElement('th')
-      var colHeadThree = document.createElement('th')
-      var colHeadFour = document.createElement('th')
-      colHeadOne.setAttribute('scope', 'col')
-      colHeadTwo.setAttribute('scope', 'col')
-      colHeadThree.setAttribute('scope', 'col')
-      colHeadFour.setAttribute('scope', 'col')
-      colHeadOne.textContent = 'Game Week';
-      colHeadTwo.textContent = 'College Football Games';
-      colHeadThree.textContent = 'Dates';
-      colHeadFour.textContent = 'Cities';
-      headerRow.appendChild(colHeadOne);
-      headerRow.appendChild(colHeadTwo);
-      headerRow.appendChild(colHeadThree);
-      headerRow.appendChild(colHeadFour);
-      tableHeadEl.appendChild(headerRow);
+  // Populate new table header. Could probably be done in for loop
+    var headerRow = document.createElement('tr');
+    var colHeadOne = document.createElement('th')
+    var colHeadTwo = document.createElement('th')
+    var colHeadThree = document.createElement('th')
+    var colHeadFour = document.createElement('th')
+    colHeadOne.setAttribute('scope', 'col')
+    colHeadTwo.setAttribute('scope', 'col')
+    colHeadThree.setAttribute('scope', 'col')
+    colHeadFour.setAttribute('scope', 'col')
+    colHeadOne.textContent = 'Game Week';
+    colHeadTwo.textContent = 'College Football Games';
+    colHeadThree.textContent = 'Dates';
+    colHeadFour.textContent = 'Cities';
+    headerRow.appendChild(colHeadOne);
+    headerRow.appendChild(colHeadTwo);
+    headerRow.appendChild(colHeadThree);
+    headerRow.appendChild(colHeadFour);
+    tableHeadEl.appendChild(headerRow);
 
+    // Extract endpoints and save as variables from schedule lookup
     for (i=0; i<teamSchedule.length; i++){
       var awayTeam = teamSchedule[i].away_team;
       var homeTeam = teamSchedule[i].home_team;
@@ -61,24 +63,31 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
       var endDateObject = dayjs(teamSchedule[i].start_date).add(2, 'days');
       var endDate = dayjs(endDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
 
-      // Post teams and game date/time onto list
 
+      // Post teams and game date/time onto list
       var rowEl = document.createElement('tr');
       tableBodyEl.appendChild(rowEl);
       var rowHeader = document.createElement('th');
       rowHeader.setAttribute('scope', 'row');
       rowHeader.textContent = i+1;
       rowEl.appendChild(rowHeader);
+      
       var gameData = document.createElement('td');
       rowEl.appendChild(gameData);
       var linkClicker = document.createElement('a');
-      linkClicker.setAttribute('id', 'click-'+i);
+      linkClicker.classList.add('click-'+i);
       linkClicker.textContent= awayTeam + ' vs. ' + homeTeam;
       gameData.appendChild(linkClicker);
+      
       var gameDate = document.createElement ('td');
-      gameDate.textContent = gameDateTime;
+      var linkClicker = document.createElement('a');
+      linkClicker.classList.add('click-'+i);
+      linkClicker.textContent = gameDateTime;
       rowEl.appendChild(gameDate);
+      gameDate.appendChild(linkClicker);
+  
 
+      // Extract endpoints and save as variables from stadium call
       for(k=0; k<stadiums.length; k++){
         if (stadiumID===stadiums[k].id){
           stadiumsPlayed.push(stadiumID);
@@ -88,15 +97,19 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
           var latitude = stadiums[k].location.x;
           var longitude = stadiums[k].location.y;
           var cityPlayed = document.createElement('td');
-          cityPlayed.textContent = city + ', ' + state;
+          
+          var cityClicker = document.createElement('a');
+          cityClicker.classList.add('click-'+i);
+          cityClicker.textContent = city + ', ' + state;
           rowEl.appendChild(cityPlayed);
+          cityPlayed.appendChild(cityClicker)
+
         };         
       };
 
       // Save the information needed for API calls to localStorage as an object
       gameData = JSON.parse(localStorage.getItem('gameData')) ?? [];
-      console.log(gameData)
-      gameLocaleData = {
+        gameLocaleData = {
         gameWeek : i+1,
         zip : zipCode,
         lat : latitude,
@@ -109,19 +122,13 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
       localStorage.setItem('gameData', JSON.stringify(gameData));     
     };
 
-    
-    // TODO: pass latitude, longitude into openTrip fetch on eventlistener
-    // getOpenTripApi(longitude, latitude);
-    var buttonOne = document.querySelector('#click-11')
-    buttonOne.addEventListener("click", function (event) {
+    var buttonEleven = document.querySelectorAll('.click-11')
+    for (i=0; i<buttonEleven.length; i++)
+    buttonEleven[i].addEventListener("click", function (event) {
       console.log('test')
-      openTripMapCall()
-      tickemasterAPICall();
-    });
-
-    // TODO: pass zip into Ticketmaster fetch on eventlistener
-    // getTicketmasterApi(zipCode, startDate, endDate);
-    
+      // openTripMapCall()
+      // tickemasterAPICall();
+    });    
   });  
 };  
 
@@ -151,7 +158,6 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
 
 var tickemasterAPICall = function(){
   gameData = JSON.parse(localStorage.getItem('gameData'))
-  console.log(gameData)
   var zipCode = gameData[11].zip;
   var startDate = gameData[11].earlyDate;
   var endDate = gameData[11].lateDate;
@@ -173,8 +179,8 @@ function getOpenTripApi(longitude, latitude) {
       return response.json();
     })
     .then(function (Data) {
-      console.log(Data);
-        
+      
+        // TODO: For loop extract xid from each
         console.log(Data.features[0].properties.xid) ;
 
         
@@ -201,6 +207,8 @@ fetch(requestUrl)
       return response.json();
     })
     .then(function (Data) {
+
+      // TODO For loop to get the following from xid
       console.log(Data);
       console.log(Data.image);
       console.log(Data.wikipedia_extracts.text);
@@ -214,16 +222,23 @@ fetch(requestUrl)
 
 searchButton.addEventListener("click", function (event) {
   event.preventDefault(); 
-  console.log(tableRowEl)
   for (i=0; i<tableRowEl.length; i++){
     tableRowEl[i].setAttribute('style', 'display: none')
   }
   gameData = [];
-  console.log(gameData)
   localStorage.setItem('gameData', JSON.stringify(gameData));
-  console.log(gameData)
   var team = searchInput.value;
-  console.log(team)
   fetchSchedule(team)
 });
 
+searchInput.addEventListener("keydown", function (event) {
+  if (event.code === "Enter") {
+    for (i=0; i<tableRowEl.length; i++){
+      tableRowEl[i].setAttribute('style', 'display: none')
+    }
+    gameData = [];
+    localStorage.setItem('gameData', JSON.stringify(gameData));
+    var team = searchInput.value;
+    fetchSchedule(team)
+  };
+});  

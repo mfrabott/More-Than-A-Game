@@ -13,6 +13,12 @@ body {
     
 }
 
+a{
+    text-decoration: none;
+    color:black;
+}
+
+
 #table {
     width: 40%;
     margin: 1%;
