@@ -4,48 +4,86 @@
     background: #2945a8;
     color: white;
     font-size: 30px;
-    font-family: sans-serif
-  }
+    font-family: sans-serif;
+
+}
 
 .P {
     font-size: 20px;
 }
 
-body {
-    
-}
-
-#table {
-    width: 40%;
-    margin: 1%;
-}
-
 #header {
     display: flex;
     justify-content: center;
-    padding: %;
+    padding: 2%;
+    margin-left: 0;
 
 }
 
 #team-name {
-    color: white;
+    color: black;
     margin-left: 1%;
     font-size: 20px;
-    
+    display: flex;
+    justify-content: center;
+
 }
 
 #search {
     margin-left: 1%;
+    position: relative;
+    left: 500px;
 }
 
-#dropdown {
-    width: 10%;
+#search-button {
+    margin: 1%;
+    position: relative;
+    left: 490px;
+    bottom: 2px;
+}
+
+.results {
+    position: relative;
+    left: 300px;
+    top: 550px;
+    border: solid blue;
+    margin: 2%;
+}
+
+#table {
+    width: 60%;
+    border: blue;
     position: absolute;
-    left: 15%;
-    top: 16%;
-    
+    left: 300px;
 }
 
+.local-events {
+    position: relative;
+    top: 365px;
+    left: 760px;
+    border: blue solid;
+}
 
+.card-title {
+    margin: 1%;
+}
 
+.card-game {
+    margin: 1%;
+}
 
+.card-date {
+    margin: 1%;
+}
+
+.card-city {
+    margin: 1%;
+}
+
+.card-place {
+    margin: 1%;
+}
+
+#card-button {
+    margin: 1%;
+}
