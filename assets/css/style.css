@@ -5,15 +5,12 @@
     color: white;
     font-size: 30px;
     font-family: sans-serif;
-    
-  }
+
+}
 
 .P {
     font-size: 20px;
 }
-
-
-
 
 #header {
     display: flex;
@@ -29,33 +26,42 @@
     font-size: 20px;
     display: flex;
     justify-content: center;
-    
+
 }
 
 #search {
     margin-left: 1%;
-    display: flex;
-    justify-content: center;
+    position: relative;
+    left: 500px;
 }
 
-#button {
-    display: flex;
-    justify-content: center;
-    
+#search-button {
+    margin: 1%;
+    position: relative;
+    left: 490px;
+    bottom: 2px;
 }
 
 .results {
-    position: absolute;
-    left: 500px;
-    border: solid;
+    position: relative;
+    left: 300px;
+    top: 550px;
+    border: solid blue;
     margin: 2%;
 }
 
-.local-events {
+#table {
+    width: 60%;
+    border: blue;
     position: absolute;
-    top: 585px;
-    left: 525px;
-    border: solid;
+    left: 300px;
+}
+
+.local-events {
+    position: relative;
+    top: 365px;
+    left: 760px;
+    border: blue solid;
 }
 
 .card-title {
@@ -75,5 +81,9 @@
 }
 
 .card-place {
+    margin: 1%;
+}
+
+#card-button {
     margin: 1%;
 }
