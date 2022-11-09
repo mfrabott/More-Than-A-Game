@@ -11,8 +11,10 @@ var stadiumID = '';
 var startDate ='';
 var endDate='';
 var stadiumsPlayed = [];
+var gameInfo = [];
 
 var fetchSchedule = function(team){
+  
   fetch("./assets/js/2022.json")
   .then(response => response.json())
   .then(schedule => {
@@ -56,8 +58,7 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
 
       for(k=0; k<stadiums.length; k++){
         if (stadiumID===stadiums[k].id){
-          stadiumsPlayed.push(stadiumID)
-          console.log(stadiumsPlayed)
+          stadiumsPlayed.push(stadiumID);
           var city = stadiums[k].city;
           var state = stadiums[k].state;
           var zipCode = stadiums[k].zip;
@@ -68,13 +69,20 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
           rowEl.appendChild(cityPlayed)
         };         
       };
-      // TODO:save the following to localStorage as an object
-      console.log(i+1)
-      console.log(zipCode);
-      console.log(latitude);
-      console.log(longitude);
-      console.log(startDate)
-      console.log(endDate)
+
+      // Save the information needed for API calls to localStorage as an object
+      gameInfo = JSON.parse(localStorage.getItem('gameData')) ?? [];
+      console.log(gameInfo)
+      gameLocaleData = {
+        gameWeek : i+1,
+        zip : zipCode,
+        lat : latitude,
+        lon : longitude,
+        earlyDate : startDate,
+        lateDate : endDate 
+      }
+      gameInfo.push(gameLocaleData);
+      localStorage.setItem('gameData', JSON.stringify(gameInfo));     
     };
     // TODO: pass latitude, longitude into openTrip fetch on eventlistener
     // getOpenTripApi(longitude, latitude);
@@ -150,9 +158,7 @@ fetch(requestUrl)
     });
 };
 
-
 // getlocationdetails()
-
 
 searchButton.addEventListener("click", function (event) {
   event.preventDefault(); 
