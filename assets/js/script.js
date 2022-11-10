@@ -7,6 +7,9 @@ var buttonRowOne = document.querySelector('#button-1');
 var tableRowEl = document.getElementsByTagName('tr');
 var tableHeadEl = document.querySelector('#table-head');
 var attractionsList = document.querySelector('.attractions-list');
+var attractionsCardBody = document.querySelector('.attractions-card')
+var tmResults = document.querySelector('.results')
+var tmCardBody = document.querySelector('.tm-card')
 
 var savedLocalAttractions = [];
 var localAttractions = {};
@@ -143,98 +146,98 @@ var buttonZero = document.querySelectorAll('.click-0')
     for (i=0; i<buttonZero.length; i++)
     buttonZero[i].addEventListener("click", function (event) {
       openTripMapCall(0);
-      // tickemasterAPICall(0);
+      tickemasterAPICall(0);
     }); 
 
     var buttonOne = document.querySelectorAll('.click-1')
     for (i=0; i<buttonOne.length; i++)
     buttonOne[i].addEventListener("click", function (event) {
       openTripMapCall(1);
-      // tickemasterAPICall(1);
+      tickemasterAPICall(1);
     }); 
 
     var buttonTwo = document.querySelectorAll('.click-2')
     for (i=0; i<buttonTwo.length; i++)
     buttonTwo[i].addEventListener("click", function (event) {
       openTripMapCall(2);
-      // tickemasterAPICall(2);
+      tickemasterAPICall(2);
     }); 
 
     var buttonThree = document.querySelectorAll('.click-3')
     for (i=0; i<buttonThree.length; i++)
     buttonThree[i].addEventListener("click", function (event) {
       openTripMapCall(3);
-      // tickemasterAPICall(3);
+      tickemasterAPICall(3);
     }); 
 
     var buttonFour = document.querySelectorAll('.click-4')
     for (i=0; i<buttonFour.length; i++)
     buttonFour[i].addEventListener("click", function (event) {
       openTripMapCall(4);
-      // tickemasterAPICall(4);
+      tickemasterAPICall(4);
     }); 
 
     var buttonFive = document.querySelectorAll('.click-5')
     for (i=0; i<buttonFive.length; i++)
     buttonFive[i].addEventListener("click", function (event) {
       openTripMapCall(5);
-      // tickemasterAPICall(5);
+      tickemasterAPICall(5);
     }); 
 
     var buttonSix = document.querySelectorAll('.click-6')
     for (i=0; i<buttonSix.length; i++)
     buttonSix[i].addEventListener("click", function (event) {
       openTripMapCall(6);
-      // tickemasterAPICall(6);
+      tickemasterAPICall(6);
     }); 
 
     var buttonSeven = document.querySelectorAll('.click-7')
     for (i=0; i<buttonSeven.length; i++)
     buttonSeven[i].addEventListener("click", function (event) {
       openTripMapCall(7);
-      // tickemasterAPICall(7);
+      tickemasterAPICall(7);
     }); 
 
     var buttonEight = document.querySelectorAll('.click-8')
     for (i=0; i<buttonEight.length; i++)
     buttonEight[i].addEventListener("click", function (event) {
       openTripMapCall(8);
-      // tickemasterAPICall(8);
+      tickemasterAPICall(8);
     }); 
 
     var buttonNine = document.querySelectorAll('.click-9')
     for (i=0; i<buttonNine.length; i++)
     buttonNine[i].addEventListener("click", function (event) {
       openTripMapCall(9);
-      // tickemasterAPICall(9);
+      tickemasterAPICall(9);
     }); 
 
     var buttonTen = document.querySelectorAll('.click-10')
     for (i=0; i<buttonTen.length; i++)
     buttonTen[i].addEventListener("click", function (event) {
       openTripMapCall(10);
-      // tickemasterAPICall(10);
+      tickemasterAPICall(10);
     }); 
 
     var buttonEleven = document.querySelectorAll('.click-11')
     for (i=0; i<buttonEleven.length; i++)
     buttonEleven[i].addEventListener("click", function (event) {
       openTripMapCall(11);
-      // tickemasterAPICall(11);
+      tickemasterAPICall(11);
     });   
 
     var buttonTwelve = document.querySelectorAll('.click-12')
     for (i=0; i<buttonTwelve.length; i++)
     buttonTwelve[i].addEventListener("click", function (event) {
       openTripMapCall(12);
-      // tickemasterAPICall(12);
+      tickemasterAPICall(12);
     });   
     
     var buttonThirteen = document.querySelectorAll('.click-13')
     for (i=0; i<buttonThirteen.length; i++)
     buttonThirteen[i].addEventListener("click", function (event) {
       openTripMapCall(13);
-      // tickemasterAPICall(13);
+      tickemasterAPICall(13);
     });   
   });  
 };  
@@ -242,6 +245,8 @@ var buttonZero = document.querySelectorAll('.click-0')
 
 // ! Ticketmaster Fetch
 function getTicketmasterApi(zipCode, startDate, endDate) {
+  savedTMEvents = JSON.parse(localStorage.getItem('savedTMEvents')) ?? [];
+
   var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
   var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
   console.log(requestUrl)
@@ -252,14 +257,55 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
     .then(function (Data) {
 
       // TODO: for loop to get data listed below and append to TM card
-      console.log(Data);
-      console.log(Data._embedded.events[0].dates.start.localDate);
-      console.log(Data._embedded.events[0].dates.start.localTime);
-      console.log(Data._embedded.events[0].name);
-      console.log(Data._embedded.events[0].url);
-      // doOtherThings(Data);
+      for (i=0; i<Data._embedded.events.length; i++){
+        console.log(Data._embedded.events[i].name)
+        // var tmEventDate = Data._embedded.events[i].dates.start.localDate;
+        // var tmEventTime = Data._embedded.events[i].dates.start.localTime;
+        var tmEventName = Data._embedded.events[i].name;
+        var tmEventLink = Data._embedded.events[i].url;
+        
+        newTMResults = {
+          tmEventName: tmEventName,
+          // tmEventDate: tmEventDate,
+          // tmEventTime: tmEventTime,
+          tmEventLink: tmEventLink
+        }
+        
+        savedTMEvents.push(newTMResults);
+        localStorage.setItem('savedTMEvents', JSON.stringify(savedTMEvents))
+      }
     });
+    setTimeout(function() {
+      displayTicketmaster()
+    }, 500);
 };
+
+var displayTicketmaster = function() {
+  
+  var existingTMEvents = tmCardBody.getElementsByTagName('*');
+  for (i=0; i<existingTMEvents.length; i++){
+    existingTMEvents[i].setAttribute('style', 'display: none')
+  }
+  tmResults.setAttribute('style', 'display:inline')
+  savedTMEvents = JSON.parse(localStorage.getItem('savedTMEvents')) ?? [];
+  var tmHeader = document.createElement('h5');
+  tmHeader.textContent = 'Ticketmaster';
+  tmHeader.classList.add('card-title');
+  tmCardBody.appendChild(tmHeader);
+  
+  // Append each attraction to schedule table as a wikipedia link
+  for (i=0; i<savedTMEvents.length; i++) {
+    ticketmasterLink = savedTMEvents[i].tmEventLink;
+    var tmEventEl = document.createElement('p');
+    tmCardBody.appendChild(tmEventEl);
+    var tmLink = document.createElement('a');
+    // tmLink.textContent = savedTMEvents[i].tmEventName;
+    tmLink.textContent = savedTMEvents[i].tmEventDate + ' - ' + savedTMEvents.tmEventTime + ' - ' + savedTMEvents[i].tmEventName;
+    tmLink.setAttribute('href', ticketmasterLink)
+    tmEventEl.appendChild(tmLink);
+  };
+};
+
 
 var tickemasterAPICall = function(gameWeek){
   gameData = JSON.parse(localStorage.getItem('gameData'))
@@ -268,8 +314,6 @@ var tickemasterAPICall = function(gameWeek){
   var endDate = gameData[gameWeek].lateDate;
   getTicketmasterApi(zipCode, startDate, endDate)
 }
-
-
 
 // ! openTripMap Fetch
 
@@ -321,18 +365,23 @@ function getLocationDetails(xidList) {
         .then(function (Data) {
           console.log(Data)
           var attractionName = Data.name;
-          var attractionImage = Data.image;
-          var attractionDescription = Data.wikipedia_extracts.text;
-          var attractionAddress = Data.address;
           var attractionWikiLink = Data.wikipedia;
-
+          
+          // TODO: utilize the following endpoints to expand what is on the card
+          // var attractionImage = Data.image;
+          // var attractionDescription = Data.wikipedia_extracts.text;
+          // var attractionAddress = Data.address;
+          
           // save details in object
           localAttractions ={
             name: attractionName,
-            image: attractionImage,
-            description: attractionDescription,
-            address: attractionAddress,
             wikilink: attractionWikiLink,
+            
+            // TODO: store the additional values in object
+            // image: attractionImage,
+            // description: attractionDescription,
+            // address: attractionAddress,
+            
           };
 
           // append array to save and store attraction details
@@ -341,29 +390,49 @@ function getLocationDetails(xidList) {
         });   
     };
   };
-  displayAttractions()
+
+  pullDetails();
+
+  // delay displaying card until pullDetails function has time to save to localStorage
+  setTimeout(function() {
+    displayAttractions()
+  }, 500);
 };
 
 
 // ! openTripMap Display Card
 // TODO: get attractions out of localStorage and loop into Attractions Card. Discuss search parameters(types of results)
 var displayAttractions = function() {
-  savedLocalAttractions = JSON.parse(localStorage.getItem('savedLocalAttractions')) ?? [];
-  for(i=0; i<savedLocalAttractions.length; i++) {
-    var nameEl = document.createElement('p');
-    nameEl.textContent = savedLocalAttractions[i].name;
-    attractionsList.appendChild(nameEl);
-    var imageEl = document.createElement('img')
-    imageEl.setAttribute('src', savedLocalAttractions[i].image);
-    attractionsList.appendChild(imageEl)
+  var existingAttractions = attractionsCardBody.getElementsByTagName('*')
+  for (i=0; i<existingAttractions.length; i++){
+    existingAttractions[i].setAttribute('style', 'display: none')
   }
-// 
-// descriptionEl.textContent = savedLocalAttractions.description;
-// addressEl.textContent = savedLocalAttractions.address;
-// wikiEl.textContent = savedLocalAttractions.wikilink;
+  attractionsList.setAttribute('style', 'display:inline-block')
+  savedLocalAttractions = JSON.parse(localStorage.getItem('savedLocalAttractions')) ?? [];
+  var attractionsHeader = document.createElement('h5');
+  attractionsHeader.textContent = 'Local Attractions';
+  attractionsHeader.classList.add('card-title');
+  attractionsCardBody.appendChild(attractionsHeader);
+  
+  // Append each attraction to schedule table as a wikipedia link
+  for (i=0; i<savedLocalAttractions.length; i++) {
+    wikipedia = savedLocalAttractions[i].wikiLink;
+    var nameEl = document.createElement('p');
+    attractionsCardBody.appendChild(nameEl);
+    var wikiLink = document.createElement('a');
+    wikiLink.textContent = savedLocalAttractions[i].name;
+    wikiLink.setAttribute('href', savedLocalAttractions[i].wikilink)
+    nameEl.appendChild(wikiLink);
+};
+    // ?Can we add photos and description? Framework laid out in openTripDetails Fetch
+    // var imageEl = document.createElement('img')
+    // imageEl.setAttribute('src', savedLocalAttractions[i].image);
+    // attractionsList.appendChild(imageEl)
+    // descriptionEl.textContent = savedLocalAttractions.description;
+    // addressEl.textContent = savedLocalAttractions.address;
+    // wikiEl.textContent = savedLocalAttractions.wikilink;
 };
 
-// displayAttractions()
 
 // !Search button 
 searchButton.addEventListener("click", function (event) {

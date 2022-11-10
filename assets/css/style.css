@@ -104,6 +104,10 @@ margin-top: 1%;
     left: 300px;
 }
 
+.attractions-list{
+    display:none
+}
+
 .local-events {
     position: relative;
 
