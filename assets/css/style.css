@@ -4,8 +4,8 @@
     background: #2945a8;
     color: white;
     font-size: 30px;
-    font-family: sans-serif;
-
+    font-family:'Helvetica Neue', ;
+    background-image: linear-gradient(gray, black)
 }
 
 
@@ -13,8 +13,8 @@
 <<<<<<< HEAD
 =======
 >>>>>>> 475cc688c0e8d430d771bdcf380a7ec43ae37b53
-body {
-    
+.body {
+
 }
 
 a{
@@ -22,12 +22,25 @@ a{
     color:black;
 }
 
+.button {
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: #2945a8;
+    color: white;
+}
+
 
 #table {
     width: 40%;
     margin: 1%;
     cursor: pointer;
-
+    border-radius: 25px;
+    border: blue;
+    
+}
+  
 }
 
 <<<<<<< HEAD
@@ -69,8 +82,11 @@ a{
     position: relative;
     left: 300px;
     top: 550px;
+    padding: 20px;
+    border-radius: 30px;
+    background: white;
     border: solid blue;
-    margin: 2%;
+    box-shadow: 10px 10px 5px gray;
 }
 
 #table {
@@ -84,7 +100,11 @@ a{
     position: relative;
     top: 365px;
     left: 760px;
+    padding: 20px;
+    border-radius: 30px;
+    background: white;
     border: blue solid;
+    box-shadow: 10px 10px 5px gray;
 }
 
 .card-title {
