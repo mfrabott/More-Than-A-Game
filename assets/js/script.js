@@ -4,8 +4,9 @@ var searchButton = document.querySelector('#search-button');
 var searchInput = document.querySelector('#search');
 var tableBodyEl = document.querySelector('#table-body');
 var buttonRowOne = document.querySelector('#button-1');
-var tableRowEl = document.getElementsByTagName('tr')
-var tableHeadEl = document.querySelector('#table-head')
+var tableRowEl = document.getElementsByTagName('tr');
+var tableHeadEl = document.querySelector('#table-head');
+var attractionsList = document.querySelector('.attractions-list');
 
 var savedLocalAttractions = [];
 var localAttractions = {};
@@ -141,7 +142,6 @@ var fetchStadiums = function(teamSchedule){
 var buttonZero = document.querySelectorAll('.click-0')
     for (i=0; i<buttonZero.length; i++)
     buttonZero[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(0);
       // tickemasterAPICall(0);
     }); 
@@ -149,7 +149,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonOne = document.querySelectorAll('.click-1')
     for (i=0; i<buttonOne.length; i++)
     buttonOne[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(1);
       // tickemasterAPICall(1);
     }); 
@@ -157,7 +156,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonTwo = document.querySelectorAll('.click-2')
     for (i=0; i<buttonTwo.length; i++)
     buttonTwo[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(2);
       // tickemasterAPICall(2);
     }); 
@@ -165,7 +163,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonThree = document.querySelectorAll('.click-3')
     for (i=0; i<buttonThree.length; i++)
     buttonThree[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(3);
       // tickemasterAPICall(3);
     }); 
@@ -173,7 +170,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonFour = document.querySelectorAll('.click-4')
     for (i=0; i<buttonFour.length; i++)
     buttonFour[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(4);
       // tickemasterAPICall(4);
     }); 
@@ -181,7 +177,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonFive = document.querySelectorAll('.click-5')
     for (i=0; i<buttonFive.length; i++)
     buttonFive[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(5);
       // tickemasterAPICall(5);
     }); 
@@ -189,7 +184,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonSix = document.querySelectorAll('.click-6')
     for (i=0; i<buttonSix.length; i++)
     buttonSix[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(6);
       // tickemasterAPICall(6);
     }); 
@@ -197,7 +191,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonSeven = document.querySelectorAll('.click-7')
     for (i=0; i<buttonSeven.length; i++)
     buttonSeven[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(7);
       // tickemasterAPICall(7);
     }); 
@@ -205,7 +198,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonEight = document.querySelectorAll('.click-8')
     for (i=0; i<buttonEight.length; i++)
     buttonEight[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(8);
       // tickemasterAPICall(8);
     }); 
@@ -213,7 +205,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonNine = document.querySelectorAll('.click-9')
     for (i=0; i<buttonNine.length; i++)
     buttonNine[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(9);
       // tickemasterAPICall(9);
     }); 
@@ -221,7 +212,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonTen = document.querySelectorAll('.click-10')
     for (i=0; i<buttonTen.length; i++)
     buttonTen[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(10);
       // tickemasterAPICall(10);
     }); 
@@ -229,7 +219,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonEleven = document.querySelectorAll('.click-11')
     for (i=0; i<buttonEleven.length; i++)
     buttonEleven[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(11);
       // tickemasterAPICall(11);
     });   
@@ -237,7 +226,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonTwelve = document.querySelectorAll('.click-12')
     for (i=0; i<buttonTwelve.length; i++)
     buttonTwelve[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(12);
       // tickemasterAPICall(12);
     });   
@@ -245,7 +233,6 @@ var buttonZero = document.querySelectorAll('.click-0')
     var buttonThirteen = document.querySelectorAll('.click-13')
     for (i=0; i<buttonThirteen.length; i++)
     buttonThirteen[i].addEventListener("click", function (event) {
-      console.log('test')
       openTripMapCall(13);
       // tickemasterAPICall(13);
     });   
@@ -282,7 +269,10 @@ var tickemasterAPICall = function(gameWeek){
   getTicketmasterApi(zipCode, startDate, endDate)
 }
 
+
+
 // ! openTripMap Fetch
+
 function getOpenTripApi(longitude, latitude) {
 
   var requestUrl = 'https://api.opentripmap.com/0.1/en/places/radius?radius=16092&lon='+ longitude +'&lat=' + latitude +'&src_attr=wikidata&kinds=historic%2Cnatural%2Ccultural&apikey=' + OpenTripKey
@@ -292,7 +282,7 @@ function getOpenTripApi(longitude, latitude) {
       return response.json();
     })
     .then(function (Data) {
-
+      console.log(Data)
       // For loop extracts xid from each attraction
       var xidList = [];
       for (i=0; i<Data.features.length; i++){
@@ -314,49 +304,66 @@ var openTripMapCall = function(gameWeek){
 // ! openTripMap Details Fetch
 // function accepts array of xid values to complete individual fetch calls. 
 function getLocationDetails(xidList) {
-  
-  // reset local storage saved attractions
-  savedLocalAttractions = [];
-  localStorage.setItem('savedLocalAttractions', JSON.stringify(savedLocalAttractions))
+  var pullDetails = function(){
+    // reset local storage saved attractions
+    savedLocalAttractions = [];
+    localStorage.setItem('savedLocalAttractions', JSON.stringify(savedLocalAttractions));
 
-  // For loop to fetch object data based on xid; limit 10/secoond per openTripMapAPI
-  for (i=0; i<9; i++) {
-    var xid = xidList[i];
-    var requestUrl = 'https://api.opentripmap.com/0.1/en/places/xid/'+xid+'?apikey='+OpenTripKey;
+    // For loop to fetch object data based on xid; limit 10/secoond per openTripMapAPI
+    for (i=0; i<9; i++) {
+      var xid = xidList[i];
+      var requestUrl = 'https://api.opentripmap.com/0.1/en/places/xid/'+xid+'?apikey='+OpenTripKey;
 
-    fetch(requestUrl)
-      .then(function (response) {
-        return response.json();
-      })
-      .then(function (Data) {
-        console.log(Data)
-        var attractionName = Data.name;
-        var attractionImage = Data.image;
-        var attractionDescription = Data.wikipedia_extracts.text;
-        var attractionAddress = Data.address;
-        var attractionWikiLink = Data.wikipedia;
+      fetch(requestUrl)
+        .then(function (response) {
+          return response.json();
+        })
+        .then(function (Data) {
+          console.log(Data)
+          var attractionName = Data.name;
+          var attractionImage = Data.image;
+          var attractionDescription = Data.wikipedia_extracts.text;
+          var attractionAddress = Data.address;
+          var attractionWikiLink = Data.wikipedia;
 
-        // save details in object
-        localAttractions ={
-          name: attractionName,
-          image: attractionImage,
-          description: attractionDescription,
-          address: attractionAddress,
-          wikilink: attractionWikiLink,
-        };
+          // save details in object
+          localAttractions ={
+            name: attractionName,
+            image: attractionImage,
+            description: attractionDescription,
+            address: attractionAddress,
+            wikilink: attractionWikiLink,
+          };
 
-        // append array to save and store attraction details
-        savedLocalAttractions.push(localAttractions);
-        localStorage.setItem('savedLocalAttractions', JSON.stringify(savedLocalAttractions))
-
-      });
+          // append array to save and store attraction details
+          savedLocalAttractions.push(localAttractions);
+          localStorage.setItem('savedLocalAttractions', JSON.stringify(savedLocalAttractions))
+        });   
+    };
   };
+  displayAttractions()
 };
 
+
+// ! openTripMap Display Card
 // TODO: get attractions out of localStorage and loop into Attractions Card. Discuss search parameters(types of results)
+var displayAttractions = function() {
+  savedLocalAttractions = JSON.parse(localStorage.getItem('savedLocalAttractions')) ?? [];
+  for(i=0; i<savedLocalAttractions.length; i++) {
+    var nameEl = document.createElement('p');
+    nameEl.textContent = savedLocalAttractions[i].name;
+    attractionsList.appendChild(nameEl);
+    var imageEl = document.createElement('img')
+    imageEl.setAttribute('src', savedLocalAttractions[i].image);
+    attractionsList.appendChild(imageEl)
+  }
+// 
+// descriptionEl.textContent = savedLocalAttractions.description;
+// addressEl.textContent = savedLocalAttractions.address;
+// wikiEl.textContent = savedLocalAttractions.wikilink;
+};
 
-
-
+// displayAttractions()
 
 // !Search button 
 searchButton.addEventListener("click", function (event) {
