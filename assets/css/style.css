@@ -4,13 +4,14 @@
     background: #2945a8;
     color: white;
     font-size: 30px;
-    font-family: sans-serif;
-
+    font-family:'Helvetica Neue', ;
+    background-image: linear-gradient(gray, black)
 }
 
 
-body {
-    
+
+.body {
+
 }
 
 a{
@@ -18,18 +19,38 @@ a{
     color:black;
 }
 
+.button {
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: #2945a8;
+    color: white;
+}
+
 
 #table {
     width: 40%;
     margin: 1%;
     cursor: pointer;
-
+    border-radius: 25px;
+    border: blue;
+    
 }
+  
+}
+
+
+
+#header {
+    display: flex;
+    justify-content: center;
 
  #header {
     text-align: center;
     background-color: blue;
     color: white;
+
     padding: 2%;
     margin-left: 0;
 
@@ -67,8 +88,11 @@ margin-top: 1%;
     position: relative;
     left: 300px;
     top: 550px;
+    padding: 20px;
+    border-radius: 30px;
+    background: white;
     border: solid blue;
-    margin: 2%;
+    box-shadow: 10px 10px 5px gray;
 }
 
 #table {
@@ -82,9 +106,15 @@ margin-top: 1%;
 
 .local-events {
     position: relative;
-    top: 350px;
-    left: 750px;
+
+    top: 365px;
+    left: 760px;
+    padding: 20px;
+    border-radius: 30px;
+    background: white;
+
     border: blue solid;
+    box-shadow: 10px 10px 5px gray;
 }
 
 .card-title {
