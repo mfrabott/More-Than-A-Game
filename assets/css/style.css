@@ -8,11 +8,11 @@
 
 }
 
-.P {
-    font-size: 20px;
-}
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 475cc688c0e8d430d771bdcf380a7ec43ae37b53
 body {
     
 }
@@ -21,10 +21,14 @@ body {
     width: 40%;
     margin: 1%;
     cursor: pointer;
+
 }
 
+<<<<<<< HEAD
 =======
 >>>>>>> 4706f9063fd1697d43d61fcd5519871a0ac2b3d8
+=======
+>>>>>>> 475cc688c0e8d430d771bdcf380a7ec43ae37b53
 #header {
     display: flex;
     justify-content: center;
