@@ -103,12 +103,12 @@ var fetchStadiums = function(teamSchedule, stadiumID, startDate, endDate){
 
 
 // TODO: Ticketmaster Fetch
-// var zipCode = '45701';
-// var startDate = '2022-11-20T19:00:00Z';
-// var endDate = '2022-11-24T19:00:00Z';
+ var zipCode = '43215';
+var startDate = '2022-11-20T19:00:00Z';
+ var endDate = '2022-11-24T19:00:00Z';
 
 function getTicketmasterApi(zipCode, startDate, endDate) {
-  var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
+  var ticketMasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
   var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
   console.log(requestUrl)
   fetch(requestUrl)
@@ -116,11 +116,18 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
       return response.json();
     })
     .then(function (Data) {
-      console.log(Data);
-      console.log(Data._embedded.events[0].dates.start.localDate);
-      console.log(Data._embedded.events[0].dates.start.localTime);
-      console.log(Data._embedded.events[0].name);
-      console.log(Data._embedded.events[0].url);
+      for (i=0; i <Data._embedded.events.length; i++){
+        var getTicketmasterApi=_embedded.events[i].getTicketmasterApi;
+        var requestUrl=_embedded.events[i].requestUrl;
+
+        
+
+      
+      console.log(Data._embedded.events[i].dates.start.localDate);
+      console.log(Data._embedded.events[i].dates.start.localTime);
+      console.log(Data._embedded.events[i].name);
+      console.log(Data._embedded.events[i].url);
+      }
       // doOtherThings(Data);
     });
 };
