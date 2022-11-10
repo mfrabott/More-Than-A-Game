@@ -4,13 +4,14 @@
     background: #2945a8;
     color: white;
     font-size: 30px;
-    font-family: sans-serif;
-
+    font-family:'Helvetica Neue', ;
+    background-image: linear-gradient(gray, black)
 }
 
 
-body {
-    
+
+.body {
+
 }
 
 a{
@@ -18,20 +19,47 @@ a{
     color:black;
 }
 
+.button {
+    transition-duration: 0.4s;
+}
+
+.button:hover {
+    background-color: #2945a8;
+    color: white;
+}
+
 
 #table {
     width: 40%;
     margin: 1%;
     cursor: pointer;
-
+    border-radius: 25px;
+    border: blue;
+    
 }
+  
+}
+
+
 
 #header {
     display: flex;
     justify-content: center;
+
+ #header {
+    text-align: center;
+    background-color: blue;
+    color: white;
+
     padding: 2%;
     margin-left: 0;
 
+} 
+
+#search-bar-and-button{
+display: flex;
+justify-content: center;
+margin-top: 1%;
 }
 
 #team-name {
@@ -43,30 +71,35 @@ a{
 
 }
 
-#search {
+/* #search {
     margin-left: 1%;
     position: relative;
     left: 500px;
-}
+} */
 
-#search-button {
+/* #search-button {
     margin: 1%;
     position: relative;
     left: 490px;
     bottom: 2px;
-}
+} */
 
 .results {
     position: relative;
     left: 300px;
     top: 550px;
+    padding: 20px;
+    border-radius: 30px;
+    background: white;
     border: solid blue;
-    margin: 2%;
+    box-shadow: 10px 10px 5px gray;
 }
 
 #table {
     width: 60%;
     border: blue;
+    display: block;
+    justify-content: center;
     position: absolute;
     left: 300px;
 }
@@ -77,9 +110,15 @@ a{
 
 .local-events {
     position: relative;
+
     top: 365px;
     left: 760px;
+    padding: 20px;
+    border-radius: 30px;
+    background: white;
+
     border: blue solid;
+    box-shadow: 10px 10px 5px gray;
 }
 
 .card-title {
