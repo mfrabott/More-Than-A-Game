@@ -1,3 +1,5 @@
+var OpenTripKey = '5ae2e3f221c38a28845f05b664810e898547599530db788ca6c2863c';
+
 var searchButton = document.querySelector('#search-button');
 var searchInput = document.querySelector('#search');
 var tableBodyEl = document.querySelector('#table-body');
@@ -7,8 +9,6 @@ var tableHeadEl = document.querySelector('#table-head')
 
 var savedLocalAttractions = [];
 var localAttractions = {};
-
-// CFB Fetch
 var stadiumID = '';
 var startDate ='';
 var endDate='';
@@ -16,11 +16,17 @@ var stadiumsPlayed = [];
 var gameData = [];
 
 
+// ! CFB Schedule Fetch
 var fetchSchedule = function(team){
+  // reset schedule data in local storage
+  gameData = [];
+  localStorage.setItem('gameData', JSON.stringify(gameData));
+
   fetch("./assets/js/2022.json")
   .then(response => response.json())
   .then(schedule => {
     var teamSchedule = [];
+    // if team chosen is away team or home team in any game, the game is added to teamSchedule array
     for (i=0; i<schedule.length; i++){
       if (team===schedule[i].away_team || team===schedule[i].home_team){
         teamSchedule.push(schedule[i])
@@ -30,6 +36,9 @@ var fetchSchedule = function(team){
   });  
 };
 
+
+// ! Stadium Fetch
+// Specific location data only available in stadium fetch call
 var fetchStadiums = function(teamSchedule){
   fetch("./assets/js/stadiums.json")
   .then(response => response.json())
@@ -54,7 +63,6 @@ var fetchStadiums = function(teamSchedule){
     headerRow.appendChild(colHeadThree);
     headerRow.appendChild(colHeadFour);
     tableHeadEl.appendChild(headerRow);
-
 
     // Extract endpoints and save as variables from schedule lookup
     for (i=0; i<teamSchedule.length; i++){
@@ -91,7 +99,7 @@ var fetchStadiums = function(teamSchedule){
       rowEl.appendChild(gameDate);
       gameDate.appendChild(linkClicker);
   
-      // Extract endpoints and save as variables from stadium call
+      // stadiumID from teamShedule is used to lookup specific location data.Extract endpoints and save as variables from stadium call
       for(k=0; k<stadiums.length; k++){
         if (stadiumID===stadiums[k].id){
           stadiumsPlayed.push(stadiumID);
@@ -121,12 +129,16 @@ var fetchStadiums = function(teamSchedule){
         earlyDate : startDate,
         lateDate : endDate 
       };
-
       gameData.push(gameLocaleData);
       localStorage.setItem('gameData', JSON.stringify(gameData));     
     };
 
-    var buttonZero = document.querySelectorAll('.click-0')
+
+// ! Row Buttons
+// ? Can we use a for loop to clean this up?
+// ? Can we make entire row a button as opposed to individual items?
+
+var buttonZero = document.querySelectorAll('.click-0')
     for (i=0; i<buttonZero.length; i++)
     buttonZero[i].addEventListener("click", function (event) {
       console.log('test')
@@ -237,16 +249,11 @@ var fetchStadiums = function(teamSchedule){
       openTripMapCall(13);
       // tickemasterAPICall(13);
     });   
-
   });  
 };  
 
 
-// TODO: Ticketmaster Fetch
-// var zipCode = '45701';
-// var startDate = '2022-11-20T19:00:00Z';
-// var endDate = '2022-11-24T19:00:00Z';
-
+// ! Ticketmaster Fetch
 function getTicketmasterApi(zipCode, startDate, endDate) {
   var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
   var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
@@ -256,6 +263,8 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
       return response.json();
     })
     .then(function (Data) {
+
+      // TODO: for loop to get data listed below and append to TM card
       console.log(Data);
       console.log(Data._embedded.events[0].dates.start.localDate);
       console.log(Data._embedded.events[0].dates.start.localTime);
@@ -273,11 +282,9 @@ var tickemasterAPICall = function(gameWeek){
   getTicketmasterApi(zipCode, startDate, endDate)
 }
 
-// TODO: openTrip Fetch
-
+// ! openTripMap Fetch
 function getOpenTripApi(longitude, latitude) {
 
-  var OpenTripKey = '5ae2e3f221c38a28845f05b664810e898547599530db788ca6c2863c';
   var requestUrl = 'https://api.opentripmap.com/0.1/en/places/radius?radius=16092&lon='+ longitude +'&lat=' + latitude +'&src_attr=wikidata&kinds=historic%2Cnatural%2Ccultural&apikey=' + OpenTripKey
 
   fetch(requestUrl)
@@ -286,7 +293,7 @@ function getOpenTripApi(longitude, latitude) {
     })
     .then(function (Data) {
 
-      // TODO: For loop extract xid from each
+      // For loop extracts xid from each attraction
       var xidList = [];
       for (i=0; i<Data.features.length; i++){
         var xid = Data.features[i].properties.xid;
@@ -296,7 +303,7 @@ function getOpenTripApi(longitude, latitude) {
     });
 };
 
-
+// function passes in week number and matches with saved lat/lon to serve as variables in getOpenTrip fetch call
 var openTripMapCall = function(gameWeek){
   gameData = JSON.parse(localStorage.getItem('gameData'))
   latitude = gameData[gameWeek].lat;
@@ -304,17 +311,18 @@ var openTripMapCall = function(gameWeek){
   getOpenTripApi(longitude, latitude)
 }
 
-
+// ! openTripMap Details Fetch
+// function accepts array of xid values to complete individual fetch calls. 
 function getLocationDetails(xidList) {
   
   // reset local storage saved attractions
   savedLocalAttractions = [];
   localStorage.setItem('savedLocalAttractions', JSON.stringify(savedLocalAttractions))
 
-  // For loop to fetch object data based on xid
+  // For loop to fetch object data based on xid; limit 10/secoond per openTripMapAPI
   for (i=0; i<9; i++) {
     var xid = xidList[i];
-    var requestUrl = 'https://api.opentripmap.com/0.1/en/places/xid/'+xid+'?apikey=5ae2e3f221c38a28845f05b664810e898547599530db788ca6c2863c';
+    var requestUrl = 'https://api.opentripmap.com/0.1/en/places/xid/'+xid+'?apikey='+OpenTripKey;
 
     fetch(requestUrl)
       .then(function (response) {
@@ -328,7 +336,7 @@ function getLocationDetails(xidList) {
         var attractionAddress = Data.address;
         var attractionWikiLink = Data.wikipedia;
 
-
+        // save details in object
         localAttractions ={
           name: attractionName,
           image: attractionImage,
@@ -337,6 +345,7 @@ function getLocationDetails(xidList) {
           wikilink: attractionWikiLink,
         };
 
+        // append array to save and store attraction details
         savedLocalAttractions.push(localAttractions);
         localStorage.setItem('savedLocalAttractions', JSON.stringify(savedLocalAttractions))
 
@@ -344,19 +353,22 @@ function getLocationDetails(xidList) {
   };
 };
 
-// getlocationdetails()
+// TODO: get attractions out of localStorage and loop into Attractions Card. Discuss search parameters(types of results)
 
+
+
+
+// !Search button 
 searchButton.addEventListener("click", function (event) {
   event.preventDefault(); 
   for (i=0; i<tableRowEl.length; i++){
     tableRowEl[i].setAttribute('style', 'display: none')
   }
-  gameData = [];
-  localStorage.setItem('gameData', JSON.stringify(gameData));
   var team = searchInput.value;
   fetchSchedule(team)
 });
 
+// search input field as alternative selection method
 searchInput.addEventListener("keydown", function (event) {
   if (event.code === "Enter") {
     for (i=0; i<tableRowEl.length; i++){
