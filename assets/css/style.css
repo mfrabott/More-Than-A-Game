@@ -1,4 +1,4 @@
-.container-lg {
+#header {
     padding: 60px;
     text-align: center;
     background: #2945a8;
@@ -9,10 +9,7 @@
 }
 
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 475cc688c0e8d430d771bdcf380a7ec43ae37b53
+
 .body {
 
 }
@@ -43,17 +40,25 @@ a{
   
 }
 
-<<<<<<< HEAD
-=======
->>>>>>> 4706f9063fd1697d43d61fcd5519871a0ac2b3d8
-=======
->>>>>>> 475cc688c0e8d430d771bdcf380a7ec43ae37b53
+
 #header {
     display: flex;
     justify-content: center;
+}
+
+ #header {
+    text-align: center;
+    background-color: blue;
+    color: white;
     padding: 2%;
     margin-left: 0;
 
+} 
+
+#search-bar-and-button{
+display: flex;
+justify-content: center;
+margin-top: 1%;
 }
 
 #team-name {
@@ -65,18 +70,18 @@ a{
 
 }
 
-#search {
+/* #search {
     margin-left: 1%;
     position: relative;
     left: 500px;
-}
+} */
 
-#search-button {
+/* #search-button {
     margin: 1%;
     position: relative;
     left: 490px;
     bottom: 2px;
-}
+} */
 
 .results {
     position: relative;
@@ -92,17 +97,24 @@ a{
 #table {
     width: 60%;
     border: blue;
+    display: block;
+    justify-content: center;
     position: absolute;
     left: 300px;
 }
 
 .local-events {
     position: relative;
+<<<<<<< HEAD
     top: 365px;
     left: 760px;
     padding: 20px;
     border-radius: 30px;
     background: white;
+=======
+    top: 350px;
+    left: 750px;
+>>>>>>> 605d795c58bb8124ac897b0b30612dcee60d341a
     border: blue solid;
     box-shadow: 10px 10px 5px gray;
 }
