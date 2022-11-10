@@ -26,12 +26,19 @@ a{
 
 }
 
-#header {
-    display: flex;
-    justify-content: center;
+ #header {
+    text-align: center;
+    background-color: blue;
+    color: white;
     padding: 2%;
     margin-left: 0;
 
+} 
+
+#search-bar-and-button{
+display: flex;
+justify-content: center;
+margin-top: 1%;
 }
 
 #team-name {
@@ -43,18 +50,18 @@ a{
 
 }
 
-#search {
+/* #search {
     margin-left: 1%;
     position: relative;
     left: 500px;
-}
+} */
 
-#search-button {
+/* #search-button {
     margin: 1%;
     position: relative;
     left: 490px;
     bottom: 2px;
-}
+} */
 
 .results {
     position: relative;
@@ -67,14 +74,16 @@ a{
 #table {
     width: 60%;
     border: blue;
+    display: block;
+    justify-content: center;
     position: absolute;
     left: 300px;
 }
 
 .local-events {
     position: relative;
-    top: 365px;
-    left: 760px;
+    top: 350px;
+    left: 750px;
     border: blue solid;
 }
 
