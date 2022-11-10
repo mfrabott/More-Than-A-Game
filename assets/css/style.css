@@ -38,15 +38,15 @@ a{
     
 }
   
-}
+
 
 
 
 #header {
     display: flex;
     justify-content: center;
-
- #header {
+}
+ /* #header {
     text-align: center;
     background-color: blue;
     color: white;
@@ -54,22 +54,22 @@ a{
     padding: 2%;
     margin-left: 0;
 
-} 
+}  */
 
-#search-bar-and-button{
+#search-bar-and-button {
 display: flex;
 justify-content: center;
 margin-top: 1%;
 }
 
-#team-name {
+/* #team-name {
     color: black;
     margin-left: 1%;
     font-size: 20px;
     display: flex;
     justify-content: center;
 
-}
+} */
 
 /* #search {
     margin-left: 1%;
@@ -100,13 +100,12 @@ margin-top: 1%;
     border: blue;
     display: block;
     justify-content: center;
-    position: absolute;
+    position: relative;
     left: 300px;
 }
 
 .local-events {
     position: relative;
-
     top: 365px;
     left: 760px;
     padding: 20px;
@@ -119,6 +118,7 @@ margin-top: 1%;
 
 .card-title {
     margin: 1%;
+    
 }
 
 .card-game {
