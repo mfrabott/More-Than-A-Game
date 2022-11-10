@@ -41,15 +41,26 @@ a{
 }
 
 
+<<<<<<< HEAD
 #header {
     display: flex;
     justify-content: center;
 }
+=======
+
+#header {
+    display: flex;
+    justify-content: center;
+>>>>>>> 337d5a2b0a1b86fc4e2ddf326421cf733fbab2c1
 
  #header {
     text-align: center;
     background-color: blue;
     color: white;
+<<<<<<< HEAD
+=======
+
+>>>>>>> 337d5a2b0a1b86fc4e2ddf326421cf733fbab2c1
     padding: 2%;
     margin-left: 0;
 
@@ -103,18 +114,30 @@ margin-top: 1%;
     left: 300px;
 }
 
+.attractions-list{
+    display:none
+}
+
 .local-events {
     position: relative;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+
+>>>>>>> 337d5a2b0a1b86fc4e2ddf326421cf733fbab2c1
     top: 365px;
     left: 760px;
     padding: 20px;
     border-radius: 30px;
     background: white;
+<<<<<<< HEAD
 =======
     top: 350px;
     left: 750px;
 >>>>>>> 605d795c58bb8124ac897b0b30612dcee60d341a
+=======
+
+>>>>>>> 337d5a2b0a1b86fc4e2ddf326421cf733fbab2c1
     border: blue solid;
     box-shadow: 10px 10px 5px gray;
 }
