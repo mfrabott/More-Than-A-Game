@@ -7,6 +7,7 @@ var buttonRowOne = document.querySelector('#button-1');
 var tableRowEl = document.getElementsByTagName('tr');
 var tableHeadEl = document.querySelector('#table-head');
 var attractionsList = document.querySelector('.attractions-list');
+var attractionsCardBody = document.querySelector('.attractions-card')
 
 var savedLocalAttractions = [];
 var localAttractions = {};
@@ -269,8 +270,6 @@ var tickemasterAPICall = function(gameWeek){
   getTicketmasterApi(zipCode, startDate, endDate)
 }
 
-
-
 // ! openTripMap Fetch
 
 function getOpenTripApi(longitude, latitude) {
@@ -321,42 +320,69 @@ function getLocationDetails(xidList) {
         .then(function (Data) {
           console.log(Data)
           var attractionName = Data.name;
-          var attractionImage = Data.image;
-          var attractionDescription = Data.wikipedia_extracts.text;
-          var attractionAddress = Data.address;
+          // var attractionImage = Data.image;
+          // var attractionDescription = Data.wikipedia_extracts.text;
+          // var attractionAddress = Data.address;
           var attractionWikiLink = Data.wikipedia;
 
           // save details in object
           localAttractions ={
             name: attractionName,
-            image: attractionImage,
-            description: attractionDescription,
-            address: attractionAddress,
+            // image: attractionImage,
+            // description: attractionDescription,
+            // address: attractionAddress,
             wikilink: attractionWikiLink,
           };
-
           // append array to save and store attraction details
           savedLocalAttractions.push(localAttractions);
           localStorage.setItem('savedLocalAttractions', JSON.stringify(savedLocalAttractions))
         });   
     };
   };
-  displayAttractions()
+  pullDetails();
+
+  // delay displaying card until pullDetails function has time to save to localStorage
+  setTimeout(function() {
+    displayAttractions()
+  }, 500);
+
 };
 
 
 // ! openTripMap Display Card
 // TODO: get attractions out of localStorage and loop into Attractions Card. Discuss search parameters(types of results)
 var displayAttractions = function() {
-  savedLocalAttractions = JSON.parse(localStorage.getItem('savedLocalAttractions')) ?? [];
-  for(i=0; i<savedLocalAttractions.length; i++) {
-    var nameEl = document.createElement('p');
-    nameEl.textContent = savedLocalAttractions[i].name;
-    attractionsList.appendChild(nameEl);
-    var imageEl = document.createElement('img')
-    imageEl.setAttribute('src', savedLocalAttractions[i].image);
-    attractionsList.appendChild(imageEl)
+  var existingAttractions = attractionsCardBody.getElementsByTagName('*')
+  for (i=0; i<existingAttractions.length; i++){
+    existingAttractions[i].setAttribute('style', 'display: none')
   }
+  attractionsList.setAttribute('style', 'display:inline-block')
+  savedLocalAttractions = JSON.parse(localStorage.getItem('savedLocalAttractions')) ?? [];
+  var attractionsHeader = document.createElement('h5');
+  attractionsHeader.textContent = 'Local Attractions';
+  attractionsHeader.classList.add('card-title');
+  attractionsCardBody.appendChild(attractionsHeader);
+  
+  for (i=0; i<savedLocalAttractions.length; i++) {
+    wikipedia = savedLocalAttractions[i].wikiLink;
+    var nameEl = document.createElement('p');
+    attractionsCardBody.appendChild(nameEl);
+    var wikiLink = document.createElement('a');
+    wikiLink.textContent = savedLocalAttractions[i].name;
+    wikiLink.setAttribute('href', savedLocalAttractions[i].wikilink)
+    nameEl.appendChild(wikiLink);
+}
+    // 
+    
+    // Append game to schedule table as a link
+
+    
+    // var imageEl = document.createElement('img')
+    // imageEl.setAttribute('src', savedLocalAttractions[i].image);
+    // attractionsList.appendChild(imageEl)
+
+
+  
 // 
 // descriptionEl.textContent = savedLocalAttractions.description;
 // addressEl.textContent = savedLocalAttractions.address;

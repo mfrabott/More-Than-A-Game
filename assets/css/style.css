@@ -71,6 +71,10 @@ a{
     left: 300px;
 }
 
+.attractions-list{
+    display:none
+}
+
 .local-events {
     position: relative;
     top: 365px;
