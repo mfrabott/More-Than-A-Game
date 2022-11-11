@@ -22,6 +22,7 @@ var stadiumsPlayed = [];
 var gameData = [];
 
 
+
 // ! CFB Schedule Fetch
 var fetchSchedule = function(team){
   // reset schedule data in local storage
@@ -53,18 +54,18 @@ var fetchStadiums = function(teamSchedule){
   // Populate new table header. 
   // ?Could we loop this?
     var headerRow = document.createElement('tr');
-    var colHeadOne = document.createElement('th')
-    var colHeadTwo = document.createElement('th')
-    var colHeadThree = document.createElement('th')
-    var colHeadFour = document.createElement('th')
-    colHeadOne.setAttribute('scope', 'col')
-    colHeadTwo.setAttribute('scope', 'col')
-    colHeadThree.setAttribute('scope', 'col')
-    colHeadFour.setAttribute('scope', 'col')
+    var colHeadOne = document.createElement('th');
+    var colHeadTwo = document.createElement('th');
+    var colHeadThree = document.createElement('th');
+    var colHeadFour = document.createElement('th');
+    colHeadOne.setAttribute('scope', 'col');
+    colHeadTwo.setAttribute('scope', 'col');
+    colHeadThree.setAttribute('scope', 'col');
+    colHeadFour.setAttribute('scope', 'col');
     colHeadOne.textContent = 'Game Number';
-    colHeadTwo.textContent = 'College Football Games';
-    colHeadThree.textContent = 'Dates';
-    colHeadFour.textContent = 'Cities';
+    colHeadTwo.textContent = 'Date';
+    colHeadThree.textContent = 'Teams';
+    colHeadFour.textContent = 'Location';
     headerRow.appendChild(colHeadOne);
     headerRow.appendChild(colHeadTwo);
     headerRow.appendChild(colHeadThree);
@@ -77,9 +78,9 @@ var fetchStadiums = function(teamSchedule){
       var homeTeam = teamSchedule[i].home_team;
       var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  h:mma')
       var stadiumID = teamSchedule[i].venue_id;
-      var startDateObject = dayjs(teamSchedule[i].start_date).subtract(3, 'days');
+      var startDateObject = dayjs(teamSchedule[i].start_date).subtract(1, 'days');
       var startDate = dayjs(startDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      var endDateObject = dayjs(teamSchedule[i].start_date).add(3, 'days');
+      var endDateObject = dayjs(teamSchedule[i].start_date).add(2, 'days');
       var endDate = dayjs(endDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
 
       // Append game week to schedule table as a link
@@ -89,15 +90,7 @@ var fetchStadiums = function(teamSchedule){
       rowHeader.setAttribute('scope', 'row');
       rowHeader.textContent = i+1;
       rowEl.appendChild(rowHeader);
-      
-      // Append game to schedule table as a link
-      var gameData = document.createElement('td');
-      var linkClicker = document.createElement('a');
-      rowEl.appendChild(gameData);
-      linkClicker.classList.add('click-'+i);
-      linkClicker.textContent= awayTeam + ' vs. ' + homeTeam;
-      gameData.appendChild(linkClicker);
-      
+          
       // Append game date to schedule table as link
       var gameDate = document.createElement ('td');
       var linkClicker = document.createElement('a');
@@ -105,6 +98,15 @@ var fetchStadiums = function(teamSchedule){
       linkClicker.textContent = gameDateTime;
       rowEl.appendChild(gameDate);
       gameDate.appendChild(linkClicker);
+
+      // Append game to schedule table as a link
+      var gameData = document.createElement('td');
+      var linkClicker = document.createElement('a');
+      rowEl.appendChild(gameData);
+      linkClicker.classList.add('click-'+i);
+      linkClicker.textContent= awayTeam + ' vs. ' + homeTeam;
+      gameData.appendChild(linkClicker);
+  
   
       // stadiumID from teamShedule is used to lookup specific location data.Extract endpoints and save as variables from stadium call
       for(k=0; k<stadiums.length; k++){
@@ -247,12 +249,12 @@ var fetchStadiums = function(teamSchedule){
 
 
 // ! Ticketmaster Fetch
-function getTicketmasterApi(zipCode, startDate, endDate) {
+function getTicketmasterApi(tmGeohash, startDate, endDate) {
   savedTMEvents = [];
   localStorage.setItem('savedTMEvents', JSON.stringify(savedTMEvents))
 
   var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
-  var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?radius=30&units=miles&sort=date,asc&size=50&postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
+  var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?radius=5&classificationName=sports,music&sort=date,asc&size=15&geoPoint=' + tmGeohash + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
   console.log(requestUrl)
   fetch(requestUrl)
     .then(function (response) {
@@ -335,6 +337,7 @@ var displayTicketmaster = function() {
     // Append event date to table
     var eventDate = document.createElement('td');
     rowEl.appendChild(eventDate);
+    eventDate.setAttribute('scope', 'row');
     eventDate.textContent = savedTMEvents[i].tmEventDate;
     
     // Append evnet time to table
@@ -356,10 +359,13 @@ var displayTicketmaster = function() {
 
 var tickemasterAPICall = function(gameWeek){
   gameData = JSON.parse(localStorage.getItem('gameData'))
-  var zipCode = gameData[gameWeek].zip;
+  var tmLatitude = gameData[gameWeek].lat;
+  var tmLongitude = gameData[gameWeek].lon;
+  var tmGeohash = Geohash.encode(tmLatitude, tmLongitude, 5);
+  console.log(geohash)
   var startDate = gameData[gameWeek].earlyDate;
   var endDate = gameData[gameWeek].lateDate;
-  getTicketmasterApi(zipCode, startDate, endDate)
+  getTicketmasterApi(tmGeohash, startDate, endDate)
 }
 
 // ! openTripMap Fetch
@@ -508,3 +514,95 @@ searchInput.addEventListener("keydown", function (event) {
     fetchSchedule(team)
   };
 });  
+
+
+
+
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+/* Geohash encoding/decoding and associated functions   (c) Chris Veness 2014-2019 / MIT Licence  */
+/* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
+
+const base32 = '0123456789bcdefghjkmnpqrstuvwxyz'; // (geohash-specific) Base32 map
+
+
+/**
+ * Geohash: Gustavo Niemeyer’s geocoding system.
+ */
+ class Geohash {
+
+  /**
+   * Encodes latitude/longitude to geohash, either to specified precision or to automatically
+   * evaluated precision.
+   *
+   * @param   {number} lat - Latitude in degrees.
+   * @param   {number} lon - Longitude in degrees.
+   * @param   {number} [precision] - Number of characters in resulting geohash.
+   * @returns {string} Geohash of supplied latitude/longitude.
+   * @throws  Invalid geohash.
+   *
+   * @example
+   *     const geohash = Geohash.encode(52.205, 0.119, 7); // => 'u120fxw'
+   */
+  static encode(lat, lon, precision) {
+      // infer precision?
+      if (typeof precision == 'undefined') {
+          // refine geohash until it matches precision of supplied lat/lon
+          for (let p=1; p<=12; p++) {
+              const hash = Geohash.encode(lat, lon, p);
+              const posn = Geohash.decode(hash);
+              if (posn.lat==lat && posn.lon==lon) return hash;
+          }
+          precision = 12; // set to maximum
+      }
+
+      lat = Number(lat);
+      lon = Number(lon);
+      precision = Number(precision);
+
+      if (isNaN(lat) || isNaN(lon) || isNaN(precision)) throw new Error('Invalid geohash');
+
+      let idx = 0; // index into base32 map
+      let bit = 0; // each char holds 5 bits
+      let evenBit = true;
+      let geohash = '';
+
+      let latMin =  -90, latMax =  90;
+      let lonMin = -180, lonMax = 180;
+
+      while (geohash.length < precision) {
+          if (evenBit) {
+              // bisect E-W longitude
+              const lonMid = (lonMin + lonMax) / 2;
+              if (lon >= lonMid) {
+                  idx = idx*2 + 1;
+                  lonMin = lonMid;
+              } else {
+                  idx = idx*2;
+                  lonMax = lonMid;
+              }
+          } else {
+              // bisect N-S latitude
+              const latMid = (latMin + latMax) / 2;
+              if (lat >= latMid) {
+                  idx = idx*2 + 1;
+                  latMin = latMid;
+              } else {
+                  idx = idx*2;
+                  latMax = latMid;
+              }
+          }
+          evenBit = !evenBit;
+
+          if (++bit == 5) {
+              // 5 bits gives us a character: append it and start over
+              geohash += base32.charAt(idx);
+              bit = 0;
+              idx = 0;
+          }
+      }
+
+      return geohash;
+  }
+ }
+  var geohash = Geohash.encode(39.9612, -82.9988, 5);
+  console.log(geohash)
