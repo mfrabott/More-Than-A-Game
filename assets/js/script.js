@@ -337,6 +337,7 @@ var displayTicketmaster = function() {
     // Append event date to table
     var eventDate = document.createElement('td');
     rowEl.appendChild(eventDate);
+    eventDate.setAttribute('scope', 'row');
     eventDate.textContent = savedTMEvents[i].tmEventDate;
     
     // Append evnet time to table
