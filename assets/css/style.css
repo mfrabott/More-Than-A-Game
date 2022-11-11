@@ -29,14 +29,14 @@ a{
 }
 
 
-#table {
+/* #table {
     width: 40%;
     margin: 1%;
     cursor: pointer;
     border-radius: 25px;
     border: blue;
     
-}
+} */
   
 
 
@@ -96,7 +96,7 @@ margin-top: 1%;
 }
 
 #table {
-    width: 60%;
+    /* width: 60%; */
     border: blue;
     display: block;
     justify-content: center;
@@ -105,7 +105,7 @@ margin-top: 1%;
 }
 
 .attractions-list{
-    display:none
+    /* display:none */
 }
 
 .local-events {
