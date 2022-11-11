@@ -254,7 +254,7 @@ function getTicketmasterApi(tmGeohash, startDate, endDate) {
   localStorage.setItem('savedTMEvents', JSON.stringify(savedTMEvents))
 
   var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
-  var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?radius=5&classificationName=sports,music&sort=date,asc&size=10&geoPoint=' + tmGeohash + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
+  var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?radius=5&classificationName=sports,music&sort=date,asc&size=15&geoPoint=' + tmGeohash + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
   console.log(requestUrl)
   fetch(requestUrl)
     .then(function (response) {
