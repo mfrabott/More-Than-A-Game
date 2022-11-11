@@ -7,9 +7,11 @@ var buttonRowOne = document.querySelector('#button-1');
 var tableRowEl = document.getElementsByTagName('tr');
 var tableHeadEl = document.querySelector('#table-head');
 var attractionsList = document.querySelector('.attractions-list');
-var attractionsCardBody = document.querySelector('.attractions-card')
-var tmResults = document.querySelector('.results')
-var tmCardBody = document.querySelector('.tm-card')
+var attractionsCardBody = document.querySelector('.attractions-card');
+var tmResults = document.querySelector('.results');
+var tmCardBody = document.querySelector('.tm-card');
+var tmTableHead = document.querySelector('#tm-table-head');
+var tmTableBody = document.querySelector('#tm-table-body')
 
 var savedLocalAttractions = [];
 var localAttractions = {};
@@ -48,7 +50,8 @@ var fetchStadiums = function(teamSchedule){
   .then(response => response.json())
   .then(stadiums => {
       
-  // Populate new table header. Could probably be done in for loop
+  // Populate new table header. 
+  // ?Could we loop this?
     var headerRow = document.createElement('tr');
     var colHeadOne = document.createElement('th')
     var colHeadTwo = document.createElement('th')
@@ -74,9 +77,9 @@ var fetchStadiums = function(teamSchedule){
       var homeTeam = teamSchedule[i].home_team;
       var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  h:mma')
       var stadiumID = teamSchedule[i].venue_id;
-      var startDateObject = dayjs(teamSchedule[i].start_date).subtract(2, 'days');
+      var startDateObject = dayjs(teamSchedule[i].start_date).subtract(3, 'days');
       var startDate = dayjs(startDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
-      var endDateObject = dayjs(teamSchedule[i].start_date).add(2, 'days');
+      var endDateObject = dayjs(teamSchedule[i].start_date).add(3, 'days');
       var endDate = dayjs(endDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
 
       // Append game week to schedule table as a link
@@ -142,7 +145,7 @@ var fetchStadiums = function(teamSchedule){
 // ? Can we use a for loop to clean this up?
 // ? Can we make entire row a button as opposed to individual items?
 
-var buttonZero = document.querySelectorAll('.click-0')
+    var buttonZero = document.querySelectorAll('.click-0')
     for (i=0; i<buttonZero.length; i++)
     buttonZero[i].addEventListener("click", function (event) {
       openTripMapCall(0);
@@ -245,10 +248,11 @@ var buttonZero = document.querySelectorAll('.click-0')
 
 // ! Ticketmaster Fetch
 function getTicketmasterApi(zipCode, startDate, endDate) {
-  savedTMEvents = JSON.parse(localStorage.getItem('savedTMEvents')) ?? [];
+  savedTMEvents = [];
+  localStorage.setItem('savedTMEvents', JSON.stringify(savedTMEvents))
 
   var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
-  var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
+  var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?radius=30&units=miles&sort=date,asc&size=50&postalCode=' + zipCode + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
   console.log(requestUrl)
   fetch(requestUrl)
     .then(function (response) {
@@ -256,53 +260,96 @@ function getTicketmasterApi(zipCode, startDate, endDate) {
     })
     .then(function (Data) {
 
-      // TODO: for loop to get data listed below and append to TM card
+      // loop to get TM data and save to localStorage
       for (i=0; i<Data._embedded.events.length; i++){
-        console.log(Data._embedded.events[i].name)
-        // var tmEventDate = Data._embedded.events[i].dates.start.localDate;
-        // var tmEventTime = Data._embedded.events[i].dates.start.localTime;
+        console.log(Data._embedded.events[i])
+        var tmEventDate = dayjs(Data._embedded.events[i].dates.start.dateTime).format('M/D/YYYY');
+        var tmEventTime = dayjs(Data._embedded.events[i].dates.start.dateTime).format('h:mma');
         var tmEventName = Data._embedded.events[i].name;
         var tmEventLink = Data._embedded.events[i].url;
         
         newTMResults = {
           tmEventName: tmEventName,
-          // tmEventDate: tmEventDate,
-          // tmEventTime: tmEventTime,
+          tmEventDate: tmEventDate,
+          tmEventTime: tmEventTime,
           tmEventLink: tmEventLink
-        }
+        };
         
         savedTMEvents.push(newTMResults);
         localStorage.setItem('savedTMEvents', JSON.stringify(savedTMEvents))
-      }
+      };
     });
     setTimeout(function() {
       displayTicketmaster()
-    }, 500);
+    }, 2000);
 };
 
+// ! Ticketmaster Display
 var displayTicketmaster = function() {
-  
   var existingTMEvents = tmCardBody.getElementsByTagName('*');
+  
+  // Populate new table header. Could probably be done in for loop
+  var headerRow = document.createElement('tr');
+  var colHeadOne = document.createElement('th')
+  var colHeadTwo = document.createElement('th')
+  var colHeadThree = document.createElement('th')
+  colHeadOne.setAttribute('scope', 'col')
+  colHeadTwo.setAttribute('scope', 'col')
+  colHeadThree.setAttribute('scope', 'col')
+  colHeadOne.textContent = 'Date';
+  colHeadTwo.textContent = 'Time';
+  colHeadThree.textContent = 'Event';
+  headerRow.appendChild(colHeadOne);
+  headerRow.appendChild(colHeadTwo);
+  headerRow.appendChild(colHeadThree);
+  tmTableHead.appendChild(headerRow);
+
+  // Hides past results
   for (i=0; i<existingTMEvents.length; i++){
     existingTMEvents[i].setAttribute('style', 'display: none')
   }
-  tmResults.setAttribute('style', 'display:inline')
+
+  // Populate TM table
+  // tmResults.setAttribute('style', 'display:inline')
   savedTMEvents = JSON.parse(localStorage.getItem('savedTMEvents')) ?? [];
   var tmHeader = document.createElement('h5');
   tmHeader.textContent = 'Ticketmaster';
   tmHeader.classList.add('card-title');
   tmCardBody.appendChild(tmHeader);
+  tmHeader.setAttribute('scope', 'row');
   
   // Append each attraction to schedule table as a wikipedia link
   for (i=0; i<savedTMEvents.length; i++) {
     ticketmasterLink = savedTMEvents[i].tmEventLink;
-    var tmEventEl = document.createElement('p');
-    tmCardBody.appendChild(tmEventEl);
+
+    //  Populate TM row for each event
+    var rowEl = document.createElement('tr');
+    tmTableBody.appendChild(rowEl);
+
+    var rowHeader = document.createElement('th');
+    rowHeader.setAttribute('scope', 'row');
+    // rowHeader.textContent = savedTMEvents[i].tmEventDate;
+    rowEl.appendChild(rowHeader);
+    
+
+    // Append event date to table
+    var eventDate = document.createElement('td');
+    rowEl.appendChild(eventDate);
+    eventDate.textContent = savedTMEvents[i].tmEventDate;
+    
+    // Append evnet time to table
+    var eventTime = document.createElement('td');
+    rowEl.appendChild(eventTime);
+    eventTime.textContent = savedTMEvents[i].tmEventTime;
+
+    // Append Event name to Title as link to TM
+    var eventTitle = document.createElement('td');
     var tmLink = document.createElement('a');
-    // tmLink.textContent = savedTMEvents[i].tmEventName;
-    tmLink.textContent = savedTMEvents[i].tmEventDate + ' - ' + savedTMEvents.tmEventTime + ' - ' + savedTMEvents[i].tmEventName;
-    tmLink.setAttribute('href', ticketmasterLink)
-    tmEventEl.appendChild(tmLink);
+    rowEl.appendChild(eventTitle);
+    tmLink.setAttribute('href', ticketmasterLink);
+    tmLink.textContent = savedTMEvents[i].tmEventName;
+    eventTitle.appendChild(tmLink);
+    tmCardBody.appendChild(rowEl);
   };
 };
 
@@ -375,7 +422,7 @@ function getLocationDetails(xidList) {
           // save details in object
           localAttractions ={
             name: attractionName,
-            wikilink: attractionWikiLink,
+            wikiLink: attractionWikiLink,
             
             // TODO: store the additional values in object
             // image: attractionImage,
@@ -393,21 +440,21 @@ function getLocationDetails(xidList) {
 
   pullDetails();
 
-  // delay displaying card until pullDetails function has time to save to localStorage
+  // delay displaying card until pullDetails function has time to save to and read from localStorage
   setTimeout(function() {
     displayAttractions()
-  }, 500);
+  }, 2000);
 };
 
 
 // ! openTripMap Display Card
-// TODO: get attractions out of localStorage and loop into Attractions Card. Discuss search parameters(types of results)
+// Get attractions out of localStorage and loop into Attractions Card. 
 var displayAttractions = function() {
   var existingAttractions = attractionsCardBody.getElementsByTagName('*')
   for (i=0; i<existingAttractions.length; i++){
     existingAttractions[i].setAttribute('style', 'display: none')
   }
-  attractionsList.setAttribute('style', 'display:inline-block')
+  // attractionsList.setAttribute('style', 'display:inline-block')
   savedLocalAttractions = JSON.parse(localStorage.getItem('savedLocalAttractions')) ?? [];
   var attractionsHeader = document.createElement('h5');
   attractionsHeader.textContent = 'Local Attractions';
@@ -419,11 +466,16 @@ var displayAttractions = function() {
     wikipedia = savedLocalAttractions[i].wikiLink;
     var nameEl = document.createElement('p');
     attractionsCardBody.appendChild(nameEl);
-    var wikiLink = document.createElement('a');
-    wikiLink.textContent = savedLocalAttractions[i].name;
-    wikiLink.setAttribute('href', savedLocalAttractions[i].wikilink)
-    nameEl.appendChild(wikiLink);
+    if (savedLocalAttractions[i].wikiLink) {
+      var wikiLink = document.createElement('a');
+      wikiLink.textContent = savedLocalAttractions[i].name;
+      wikiLink.setAttribute('href', savedLocalAttractions[i].wikiLink)
+      nameEl.appendChild(wikiLink);
+    } else {
+      nameEl.textContent = savedLocalAttractions[i].name;
+    };
 };
+
     // ?Can we add photos and description? Framework laid out in openTripDetails Fetch
     // var imageEl = document.createElement('img')
     // imageEl.setAttribute('src', savedLocalAttractions[i].image);
