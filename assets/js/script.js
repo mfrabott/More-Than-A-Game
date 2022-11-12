@@ -15,7 +15,6 @@ var tmTableHead = document.querySelector('#tm-table-head');
 var tmTableBody = document.querySelector('#tm-table-body')
 var tmTable = document.querySelector('.tm-table')
 
-
 var savedLocalAttractions = [];
 var localAttractions = {};
 var stadiumID = '';
@@ -23,8 +22,6 @@ var startDate ='';
 var endDate='';
 var stadiumsPlayed = [];
 var gameData = [];
-
-
 
 // ! CFB Schedule Fetch
 var fetchSchedule = function(team){
@@ -258,7 +255,6 @@ function getTicketmasterApi(tmGeohash, startDate, endDate) {
 
   var tickemasterAPI = 'ZhQouzEAxvFo61xAEbXYq4kqmcjgUAqX'
   var requestUrl = 'https://app.ticketmaster.com/discovery/v2/events.json?radius=5&classificationName=sports,music&sort=date,asc&size=15&geoPoint=' + tmGeohash + '&startDateTime=' + startDate + '&endDateTime=' + endDate + '&apikey=' + tickemasterAPI;
-  console.log(requestUrl)
   fetch(requestUrl)
     .then(function (response) {
       return response.json();
@@ -297,15 +293,7 @@ var displayTicketmaster = function() {
   for (i=0; i<existingTMEvents.length; i++){
     existingTMEvents[i].setAttribute('style', 'display: none')
   }
-  
-  // Populate TM table
-  // savedTMEvents = JSON.parse(localStorage.getItem('savedTMEvents')) ?? [];
-  // var tmHeader = document.createElement('h5');
-  // tmHeader.textContent = 'Ticketmaster';
-  // tmHeader.classList.add('card-title');
-  // tmResults.appendChild(tmHeader);
-  // tmHeader.setAttribute('scope', 'row');
-  
+ 
   // Populate new table header. Could probably be done in for loop
   var headerRow = document.createElement('tr');
   var colHeadOne = document.createElement('th')
@@ -319,15 +307,12 @@ var displayTicketmaster = function() {
   colHeadOne.textContent = 'Date';
   colHeadTwo.textContent = 'Time';
   colHeadThree.textContent = 'Event';
-  // colHeadThree.textContent = 'Event';
   headerRow.appendChild(colHeadOne);
   headerRow.appendChild(colHeadTwo);
   headerRow.appendChild(colHeadThree);
   headerRow.appendChild(colHeadFour);
   tmTableHead.appendChild(headerRow);
-
  
-  
   // Append each attraction to schedule table as a wikipedia link
   for (i=0; i<savedTMEvents.length; i++) {
     ticketmasterLink = savedTMEvents[i].tmEventLink;
@@ -357,6 +342,7 @@ var displayTicketmaster = function() {
     // eventTitle.appendChild(tmLink);
     tmTableBody.appendChild(rowEl);
 
+    // Tickets button
     var ticketButton = document.createElement('button');
     var tmLink = document.createElement('a');
     rowEl.appendChild(ticketButton);
@@ -371,16 +357,13 @@ var displayTicketmaster = function() {
   tmTable.setAttribute('style', 'display:inline')
   tmTableHead.setAttribute('style', 'display:table-header-group')
   tmTableBody.setAttribute('style', 'display:table-row-group')
-
 };
-
 
 var tickemasterAPICall = function(gameWeek){
   gameData = JSON.parse(localStorage.getItem('gameData'))
   var tmLatitude = gameData[gameWeek].lat;
   var tmLongitude = gameData[gameWeek].lon;
   var tmGeohash = Geohash.encode(tmLatitude, tmLongitude, 5);
-  console.log(geohash)
   var startDate = gameData[gameWeek].earlyDate;
   var endDate = gameData[gameWeek].lateDate;
   getTicketmasterApi(tmGeohash, startDate, endDate)
@@ -397,7 +380,7 @@ function getOpenTripApi(longitude, latitude) {
       return response.json();
     })
     .then(function (Data) {
-      console.log(Data)
+
       // For loop extracts xid from each attraction
       var xidList = [];
       for (i=0; i<Data.features.length; i++){
@@ -434,10 +417,10 @@ function getLocationDetails(xidList) {
           return response.json();
         })
         .then(function (Data) {
-          console.log(Data)
+
           var attractionName = Data.name;
           var attractionWikiLink = Data.wikipedia;
-          console.log(Data.image)
+
           // TODO: utilize the following endpoints to expand what is on the card
           // var attractionImage = Data.image;
           // var attractionDescription = Data.wikipedia_extracts.text;
@@ -482,12 +465,7 @@ var displayAttractions = function() {
   attractionsHeader.textContent = 'Local Attractions';
   attractionsHeader.classList.add('card-title');
   attractionsCardBody.appendChild(attractionsHeader);
-  
-  // var attractionsSubHeader = document.createElement('h6');
-  // attractionsSubHeader.textContent = 'Se';
-  // attractionsCardBody.appendChild(attractionsSubHeader);
-  
-
+ 
   // Append each attraction to schedule table as a wikipedia link
   for (i=0; i<savedLocalAttractions.length; i++) {
     wikipedia = savedLocalAttractions[i].wikiLink;
@@ -515,8 +493,6 @@ var displayAttractions = function() {
   attractionsCard.setAttribute('style', 'display:block')
 };  
 
-
-
 // !Search button 
 searchButton.addEventListener("click", function (event) {
   event.preventDefault(); 
@@ -541,7 +517,7 @@ searchInput.addEventListener("keydown", function (event) {
 });  
 
 
-
+// Ticketmaster utilizes geoHashes for their API to fetch based on location. The open source function below takes in and converts latitude and longitude and returns geohashes that we can then pass into the TM fetch call. Previous method of using the zipcode query parameter would not return events outside of the zipcode used.
 
 /* - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -  */
 /* Geohash encoding/decoding and associated functions   (c) Chris Veness 2014-2019 / MIT Licence  */
@@ -628,6 +604,4 @@ const base32 = '0123456789bcdefghjkmnpqrstuvwxyz'; // (geohash-specific) Base32 
 
       return geohash;
   }
- }
-  var geohash = Geohash.encode(39.9612, -82.9988, 5);
-  console.log(geohash)
+ };
