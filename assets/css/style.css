@@ -15,6 +15,17 @@ body {
 
 }
 
+h5{
+    margin-bottom: 2rem;
+    /* text-decoration: underline; */
+    padding-bottom: .75rem;
+    font-size: 1.5rem;
+}
+
+p{
+    padding-top: .5rem;
+}
+
 a {
     text-decoration: none;
     color: black;
@@ -47,6 +58,18 @@ a {
     background: white;
     border: solid;
     box-shadow: 10px 10px 5px gray;
+    display:none;
+    text-align: center;
+    margin:.5rem;
+}
+
+.results button {
+    background-color: #375bdf;
+    border-radius: 10px;
+}
+
+.results a{
+    color: aliceblue;
 }
 
 #table {
@@ -60,4 +83,11 @@ a {
     background: white;
     border: solid;
     box-shadow: 10px 10px 5px gray;
+    display:none;
+    text-align: center;
+    margin:.5rem;
+}
+
+.local-events a{
+    text-decoration: underline;
 }
