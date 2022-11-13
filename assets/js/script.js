@@ -353,9 +353,12 @@ var displayTicketmaster = function() {
     tmTableBody.appendChild(rowEl);
 
     // Tickets button
+    var buttonTD = document.createElement('td');
     var ticketButton = document.createElement('button');
     var tmLink = document.createElement('a');
-    rowEl.appendChild(ticketButton);
+    buttonTD.appendChild(ticketButton)
+    rowEl.appendChild(buttonTD);
+    ticketButton.classList.add('align-middle')
     tmLink.setAttribute('href', ticketmasterLink);
     tmLink.textContent = 'Tickets';
     tmLink.setAttribute('target', '_blank')
