@@ -76,7 +76,11 @@ var fetchStadiums = function(teamSchedule){
     for (i=0; i<teamSchedule.length; i++){
       var awayTeam = teamSchedule[i].away_team;
       var homeTeam = teamSchedule[i].home_team;
-      var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  h:mma')
+      if (teamSchedule[i].start_time_tbd){
+        var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  [TBD]')
+      } else {
+        var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  h:mma')
+      };
       var stadiumID = teamSchedule[i].venue_id;
       var startDateObject = dayjs(teamSchedule[i].start_date).subtract(1, 'days');
       var startDate = dayjs(startDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
@@ -263,9 +267,15 @@ function getTicketmasterApi(tmGeohash, startDate, endDate) {
 
       // loop to get TM data and save to localStorage
       for (i=0; i<Data._embedded.events.length; i++){
-        console.log(Data._embedded.events[i])
-        var tmEventDate = dayjs(Data._embedded.events[i].dates.start.dateTime).format('M/D/YYYY');
-        var tmEventTime = dayjs(Data._embedded.events[i].dates.start.dateTime).format('h:mma');
+
+        if (Data._embedded.events[i].dates.start.timeTBA){
+          var tmEventDate = dayjs(Data._embedded.events[i].dates.start.localDate).format('M/D/YYYY');
+          var tmEventTime = 'TBA';
+        } else {
+          var tmEventDate = dayjs(Data._embedded.events[i].dates.start.dateTime).format('M/D/YYYY');
+          var tmEventTime = dayjs(Data._embedded.events[i].dates.start.dateTime).format('h:mma');
+        }
+
         var tmEventName = Data._embedded.events[i].name;
         var tmEventLink = Data._embedded.events[i].url;
         
