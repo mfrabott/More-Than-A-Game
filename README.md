@@ -9,7 +9,7 @@ Once the initial pseudo-call is made to retrieve the user's selected team's sche
 
 ## Screen Capture
 
-
+![The app displays a search for Cincinatti's schedule with Ticketmaster and OpenTripMapAPI results.](./assets/images/MoreThanAGame.png)
 
 ## Deployed Link
 

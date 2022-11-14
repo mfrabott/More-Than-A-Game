@@ -14,6 +14,7 @@ var tmCardBody = document.querySelector('.tm-card');
 var tmTableHead = document.querySelector('#tm-table-head');
 var tmTableBody = document.querySelector('#tm-table-body')
 var tmTable = document.querySelector('.tm-table')
+var instructions = document.querySelector('#instructions')
 
 var savedLocalAttractions = [];
 var localAttractions = {};
@@ -143,7 +144,8 @@ var fetchStadiums = function(teamSchedule){
         lateDate : endDate 
       };
       gameData.push(gameLocaleData);
-      localStorage.setItem('gameData', JSON.stringify(gameData));     
+      localStorage.setItem('gameData', JSON.stringify(gameData));
+      instructions.setAttribute('style', 'display: flex')     
     };
 
 
