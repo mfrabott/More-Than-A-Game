@@ -22,7 +22,7 @@ h1{
 
 h5{
     margin-bottom: 2rem;
-    /* text-decoration: underline; */
+    text-decoration: underline;
     padding-bottom: .75rem;
     font-size: 1.5rem;
 }
@@ -55,6 +55,11 @@ a {
     display: flex;
     justify-content: center;
     margin-top: 1%;
+}
+
+#instructions {
+    display: none;
+    justify-content: center;
 }
 
 .results {
