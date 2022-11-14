@@ -516,6 +516,12 @@ searchButton.addEventListener("click", function (event) {
   }
   var team = searchInput.value;
   fetchSchedule(team)
+    // Hides past results
+
+  var existingAttractions = attractionsCardBody.getElementsByTagName('*');
+  for (i=0; i<existingAttractions.length; i++){
+    existingAttractions[i].setAttribute('style', 'display: none')
+  }
 });
 
 // search input field as alternative selection method
@@ -528,6 +534,10 @@ searchInput.addEventListener("keydown", function (event) {
     localStorage.setItem('gameData', JSON.stringify(gameData));
     var team = searchInput.value;
     fetchSchedule(team)
+    var existingAttractions = attractionsCardBody.getElementsByTagName('*');
+    for (i=0; i<existingAttractions.length; i++){
+      existingAttractions[i].setAttribute('style', 'display: none')
+    };
   };
 });  
 
