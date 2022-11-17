@@ -6,6 +6,13 @@ This application utilizes three third=party APIs: CollegeFootballData API, Ticke
 
 Once the initial pseudo-call is made to retrieve the user's selected team's schedule, they are afforded the opportunity to select any of the games on the schedule to initiate calls to the other APIs where they are presented with the relevant results.
 
+## Installation and Usage
+
+Using this application locally will require the progam to be run through a server as the CFB schedule and stadium calls are fetched locally and create CORS problems when run in the browser.
+
+## Contributions
+
+Additional API endpoints have already been identified and commented out to be added to the Local Attractions card, including images, which could be incorporated into the program. Additionally, user inputs could be added for Ticketmaster and OpenTripMap query parameters to cater to the user's specific preferences (currently 'music' and 'sports' are hardcoded into the TM call and 'cultural', 'historic', and 'natural' are queried in the OpenTripMap API. See https://opentripmap.io/catalog for alternative options the user could select). Other adjacent attractions would be welcome additions also.
 
 ## Screen Capture
 
