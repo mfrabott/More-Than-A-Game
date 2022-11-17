@@ -16,6 +16,7 @@ var tmTableBody = document.querySelector('#tm-table-body')
 var tmTable = document.querySelector('.tm-table')
 var instructions = document.querySelector('#instructions')
 
+
 var savedLocalAttractions = [];
 var localAttractions = {};
 var stadiumID = '';
@@ -476,10 +477,10 @@ var displayAttractions = function() {
   }
   // attractionsList.setAttribute('style', 'display:inline-block')
   savedLocalAttractions = JSON.parse(localStorage.getItem('savedLocalAttractions')) ?? [];
-  var attractionsHeader = document.createElement('h5');
-  attractionsHeader.textContent = 'Local Attractions';
-  attractionsHeader.classList.add('card-title');
-  attractionsCardBody.appendChild(attractionsHeader);
+  // var attractionsHeader = document.createElement('h5');
+  // attractionsHeader.textContent = 'Local Attractions';
+  // attractionsHeader.classList.add('card-title');
+  // attractionsCardBody.appendChild(attractionsHeader);
  
   // Append each attraction to schedule table as a wikipedia link
   for (i=0; i<savedLocalAttractions.length; i++) {
