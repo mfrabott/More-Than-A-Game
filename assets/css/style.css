@@ -103,6 +103,57 @@ a {
 }
 
 
+.modal {
+    display: block; 
+    position: fixed; 
+    z-index: 1; 
+    left: 25%;
+    top: 35%;
+    
+  }
+  
+  .modal-body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+  
+  /* Modal Content */
+  .modal-content {
+    border: 1px solid #888;
+    width: 50vw;
+    height: 25vh;
+    border-radius: 15px;
+    position: relative;
+    background-color: rgba(0, 0, 0, 0.85);
+    color: white;
+    padding: .5rem 3.5rem;
+    text-align: center;
+  }
+
+  .modal-content h4 {
+    font-weight: 300;
+  }
+
+  /* Close Button */
+.close {
+    color: #aaa;
+    float: right;
+    /* position: relative; */
+    /* right: 0; */
+    text-align: right;
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-right: 5px;
+  }
+  
+  .close:hover,
+  .close:focus {
+    cursor: pointer;
+  }
+
 @media screen and (max-width: 768px) {
     th{
         font-size: .8rem;
