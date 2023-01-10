@@ -16,6 +16,10 @@ var tmTableBody = document.querySelector('#tm-table-body')
 var tmTable = document.querySelector('.tm-table')
 var instructions = document.querySelector('#instructions')
 
+const modal = document.querySelector(".modal");
+var close = document.querySelector(".close")
+
+
 
 var savedLocalAttractions = [];
 var localAttractions = {};
@@ -79,15 +83,29 @@ var fetchStadiums = function(teamSchedule){
       var awayTeam = teamSchedule[i].away_team;
       var homeTeam = teamSchedule[i].home_team;
       if (teamSchedule[i].start_time_tbd){
-        var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  [TBD]')
+
+        // ! Swap these when the 2023 schedule comes out!
+        // var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  [TBD]')
+        var gameDateTime = dayjs(teamSchedule[i].start_date).subtract(1, 'day').add(1, 'year').format('dddd, MMMM D, YYYY  -  [TBD]')
       } else {
-        var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  h:mma')
+
+        // ! Swap these when the 2023 schedule comes out!
+        // var gameDateTime = dayjs(teamSchedule[i].start_date).format('dddd, MMMM D, YYYY  -  h:mma')
+        var gameDateTime = dayjs(teamSchedule[i].start_date).subtract(1, 'day').add(1, 'year').format('dddd, MMMM D, YYYY  -  h:mma')
       };
+
       var stadiumID = teamSchedule[i].venue_id;
       var startDateObject = dayjs(teamSchedule[i].start_date).subtract(1, 'days');
-      var startDate = dayjs(startDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+
+        // ! Swap these when the 2023 schedule comes out!
+      // var startDate = dayjs(startDateObject).subtract.format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      var startDate = dayjs(startDateObject).subtract(1, 'day').add(1, 'year').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      
       var endDateObject = dayjs(teamSchedule[i].start_date).add(2, 'days');
-      var endDate = dayjs(endDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+
+        // ! Swap these when the 2023 schedule comes out!
+      // var endDate = dayjs(endDateObject).format('YYYY-MM-DD[T]HH:mm:ss[Z]');
+      var endDate = dayjs(endDateObject).subtract(1, 'day').add(1, 'year').format('YYYY-MM-DD[T]HH:mm:ss[Z]');
 
       // Append game week to schedule table as a link
       var rowEl = document.createElement('tr');
@@ -327,6 +345,20 @@ var displayTicketmaster = function() {
   tmTableHead.appendChild(headerRow);
  
   // Append each attraction to schedule table as a wikipedia link
+
+  if (savedTMEvents.length===0){
+    var rowEl = document.createElement('tr');
+    tmTableBody.appendChild(rowEl);
+    var eventDate = document.createElement('td');
+    rowEl.appendChild(eventDate);
+    var eventTime = document.createElement('td');
+    rowEl.appendChild(eventTime);
+    var eventTitle = document.createElement('td');
+    rowEl.appendChild(eventTitle);
+    eventTitle.textContent = 'NO EVENTS CURRENTLY SCHEDULED';
+    tmTableBody.appendChild(rowEl);
+  }
+
   for (i=0; i<savedTMEvents.length; i++) {
     ticketmasterLink = savedTMEvents[i].tmEventLink;
 
@@ -627,3 +659,7 @@ const base32 = '0123456789bcdefghjkmnpqrstuvwxyz'; // (geohash-specific) Base32 
       return geohash;
   }
  };
+
+ close.onclick = function() {
+  modal.style.display = "none";
+}
